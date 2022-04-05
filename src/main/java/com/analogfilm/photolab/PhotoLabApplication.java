@@ -10,6 +10,8 @@ public class PhotoLabApplication {
 
         SpringApplication.run(PhotoLabApplication.class, args);
         System.out.println("this commit k kotoromy vernemsya");
+        System.out.println("etot otmenem");
+        System.out.println("eto tak posle vsego");
     }
 
 }
