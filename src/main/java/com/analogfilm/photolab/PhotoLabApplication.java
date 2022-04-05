@@ -9,7 +9,7 @@ public class PhotoLabApplication {
     public static void main(String[] args) {
 
         SpringApplication.run(PhotoLabApplication.class, args);
-
+        System.out.println("this commit k kotoromy vernemsya");
     }
 
 }
