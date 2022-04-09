@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 
+@Data
 @Entity
 @Table(name = "Employee")
 @Getter
@@ -13,7 +14,6 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class Employee{
     @Id
-    @Column (name = "FIO")
     private String FIO;
     @Column (name = "experience")
     private int experience;
