@@ -26,10 +26,11 @@ public class EmployeeController {
         return "users";
     }
 
-
-
     @GetMapping("/")
     public String mainScreen(){
         return "photoLab";
     }
+
+    @GetMapping("/user-create")
+    public String userCreate() { return "OLDlogin"; }
 }

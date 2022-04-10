@@ -1,8 +1,7 @@
 package com.analogfilm.photolab.controller;
 
-import com.analogfilm.photolab.models.Role;
 import com.analogfilm.photolab.models.User;
-import com.analogfilm.photolab.repositoty.UserRepo;
+import com.analogfilm.photolab.servise.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,8 +13,12 @@ import java.util.Map;
 @Controller
 public class RegistrationController {
 
+    private final UserService userService;
+
     @Autowired
-    private UserRepo userRepo;
+    public RegistrationController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping("/registration")
     public String registration() {
@@ -23,17 +26,8 @@ public class RegistrationController {
     }
 
     @PostMapping("/registration")
-    public String addUser(User user, Map<String, Object> model) {
-        User userFromDb = userRepo.findByUsername(user.getUsername());
-
-        if (userFromDb != null) {
-            model.put("message", "User exists!");
-            return "registration";
-        }
-
-        user.setRoles(Collections.singleton(Role.USER));
-        userRepo.save(user);
-
+    public String registrationUser(User user){
+        userService.saveUser(user);
         return "redirect:/login";
     }
 }
