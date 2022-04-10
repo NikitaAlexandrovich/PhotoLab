@@ -1,0 +1,27 @@
+package com.analogfilm.photolab.models;
+
+import lombok.*;
+
+import javax.persistence.*;
+import java.util.Set;
+
+@Data
+@Entity
+@Table(name = "User")
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String username;
+    private String password;
+
+    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "id"))
+    @Enumerated(EnumType.STRING)
+    private Set<Role> roles;
+}
