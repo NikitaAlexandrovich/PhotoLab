@@ -1,10 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>Orders</title>
 </head>
 <body>
-$END$
+<h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Sign Out"/>
+</form>
+<div th:switch="${orders}">
+    <h2 th:case="null">No orders found!</h2>
+    <div th:case="*">
+        <h2>Orders</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>id</th>
+                <th>username</th>
+                <th>empl</th>
+                <th>film</th>
+                <th>In progress</th>
+                <th>need dev</th>
+                <th>need scan</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="order : ${orders}">
+                <td th:text="${order.id}"></td>
+                <td th:text="${order.username.username}"></td>
+                <td th:text="${order.employee_name.username}"></td>
+                <td th:text="${order.name_film.name_film}"></td>
+                <div th:switch="${order.in_progress}">
+                    <td th:case="true">Выполняется</td>
+                    <td th:case="false">Завершен</td>
+                </div>
+                <div th:switch="${order.need_develop}">
+                    <td th:case="true">Требуется</td>
+                    <td th:case="false">Не требуется</td>
+                </div>
+                <div th:switch="${order.need_scan}">
+                    <td th:case="true">Требуется</td>
+                    <td th:case="false">Не требуется</td>
+                </div>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 </body>
 </html>

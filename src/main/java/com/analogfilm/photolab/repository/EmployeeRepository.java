@@ -1,4 +1,4 @@
-package com.analogfilm.photolab.repositoty;
+package com.analogfilm.photolab.repository;
 
 import com.analogfilm.photolab.models.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,7 +1,7 @@
 package com.analogfilm.photolab.servise;
 
 import com.analogfilm.photolab.models.Employee;
-import com.analogfilm.photolab.repositoty.EmployeeRepository;
+import com.analogfilm.photolab.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

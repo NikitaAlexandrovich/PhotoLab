@@ -13,7 +13,7 @@ import java.util.Map;
 @Controller
 public class RegistrationController {
 
-    private final UserService userService;
+    private UserService userService;
 
     @Autowired
     public RegistrationController(UserService userService) {

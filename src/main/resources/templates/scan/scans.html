@@ -2,37 +2,34 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Users</title>
+    <title>Scans</title>
 </head>
 <body>
     <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
     <form th:action="@{/logout}" method="post">
         <input type="submit" value="Sign Out"/>
     </form>
-    <div th:switch="${users}">
+    <div th:switch="${scans}">
         <h2 th:case="null">No users found!</h2>
         <div th:case="*">
-            <h2>Users</h2>
+            <h2>Scans</h2>
             <table>
                 <thead>
                 <tr>
-                    <th>Id</th>
-                    <th>First name</th>
-                    <th>Last name</th>
+                    <th>name</th>
+                    <th>megapix</th>
+                    <th>prise</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="user : ${users}">
-                    <td th:text="${user.FIO}"></td>
-                    <td th:text="${user.experience}"></td>
-                    <td th:text="${user.passphrase}"></td>
-                    <td><a th:href="@{user-update/{FIO}(FIO=${user.FIO})}">Edit</a></td>
-                    <td><a th:href="@{user-delete/{FIO}(FIO=${user.FIO})}">Delete</a></td>
+                <tr th:each="scan : ${scans}">
+                    <td th:text="${scan.scan_machine}"></td>
+                    <td th:text="${scan.megapixels}"></td>
+                    <td th:text="${scan.prise}"></td>
                 </tr>
                 </tbody>
             </table>
         </div>
-        <p><a href="/user-create">Create user</a></p>
     </div>
 </body>
 </html>

@@ -1,7 +1,7 @@
 package com.analogfilm.photolab.servise;
 
 import com.analogfilm.photolab.models.User;
-import com.analogfilm.photolab.repositoty.UserRepository;
+import com.analogfilm.photolab.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
