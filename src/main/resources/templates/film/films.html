@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Films</title>
+</head>
+<body>
+<h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Sign Out"/>
+</form>
+<div th:switch="${films}">
+    <h2 th:case="null">No orders found!</h2>
+    <div th:case="*">
+        <h2>Films</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>name</th>
+                <th>tech name</th>
+                <th>scan name</th>
+                <th>film price</th>
+                <th>format type</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="film : ${films}">
+                <td th:text="${film.name_film}"></td>
+                <td th:text="${film.tech_name.tech_name}"></td>
+                <td th:text="${film.scan_machine.scan_machine}"></td>
+                <td th:text="${film.film_prise}"></td>
+                <td th:text="${film.format_type}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
