@@ -16,18 +16,18 @@
             <table>
                 <thead>
                 <tr>
-                    <th>Id</th>
-                    <th>First name</th>
-                    <th>Last name</th>
+                    <th>Username</th>
+                    <th>Pass</th>
+                    <th>Role</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="user : ${users}">
-                    <td th:text="${user.FIO}"></td>
-                    <td th:text="${user.experience}"></td>
-                    <td th:text="${user.passphrase}"></td>
-                    <td><a th:href="@{user-update/{FIO}(FIO=${user.FIO})}">Edit</a></td>
-                    <td><a th:href="@{user-delete/{FIO}(FIO=${user.FIO})}">Delete</a></td>
+                    <td th:text="${user.username}"></td>
+                    <td th:text="${user.password}"></td>
+                    <td th:text="${user.role}"></td>
+                    <td><a th:href="@{user-update/{username}(username=${user.username})}">Edit</a></td>
+                    <td><a th:href="@{user-delete/{username}(username=${user.username})}">Delete</a></td>
                 </tr>
                 </tbody>
             </table>
