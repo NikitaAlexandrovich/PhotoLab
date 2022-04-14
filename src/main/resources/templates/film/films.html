@@ -1,26 +1,142 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
-    <meta charset="UTF-8">
-    <title>Films</title>
+
+    <style>
+        #customers {
+            /*font-family: Arial, Helvetica, sans-serif;*/
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        #customers td, #customers th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        #customers tr:nth-child(even){background-color: #f2f2f2;}
+
+        #customers tr:hover {background-color: #ddd;}
+
+        #customers th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: center;
+            background-color: #f6388e;
+            color: white;
+        }
+    </style>
+
+    <!-- basic -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- mobile metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <!-- site metas -->
+    <title>Photo Lab Films</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- bootstrap css -->
+
+    <!--       <link rel="stylesheet" th:href="@{/main/css/bootstrap.min.css}">-->
+    <link rel="stylesheet" href="/home/css/bootstrap.min.css">
+    <!--       <link rel="stylesheet" type="text/css" href="/vendor/bootstrap/css/bootstrap.min.css">-->
+    <!-- style css -->
+    <link rel="stylesheet" href="/home/css/style.css">
+    <!--       <link rel="stylesheet" href="/css/style.css">-->
+    <!-- Responsive-->
+    <link rel="stylesheet" href="/home/css/responsive.css">
+    <!-- fevicon -->
+    <link rel="icon" href="/home/images/fevicon.png" type="image/gif" />
+    <!-- Tweaks for older IEs-->
+    <link rel="stylesheet" href="/home/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    <link rel="stylesheet" href="https://rawgit.com/LeshikJanz/libraries/master/Bootstrap/baguetteBox.min.css">
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
 </head>
-<body>
-<h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
-<form th:action="@{/logout}" method="post">
-    <input type="submit" value="Sign Out"/>
-</form>
+<!-- body -->
+<body class="main-layout">
+<!-- loader  -->
+<div class="loader_bg">
+    <div class="loader"><img src="/home/images/loading.gif" alt="#"/></div>
+</div>
+<!-- end loader -->
+
+<!-- header -->
+<header class="header-area">
+    <div class="container-fluid">
+        <div class="row ">
+
+            <div class=" col-md-2 col-sm-3">
+                <div class="logo">
+                    <a th:href="@{/}">Film<br><span>lab</span></a>
+                </div>
+            </div>
+            <div class="col-md-8 col-sm-9">
+                <div class="navbar-area">
+                    <nav class="site-navbar">
+                        <ul>
+                            <li><a th:href="@{/}">Домашняя</a></li>
+                            <li><a class="active" th:href="@{/films}">Плёнка</a></li>
+                            <li><a th:href="@{/scans}">Сканирование</a></li>
+                            <li><a th:href="@{/}">Проявка</a></li>
+                            <li><a th:href="@{/orders}">Заказы</a></li>
+                            <li><a th:href="@{/employee}">Сотруднику</a></li>
+                            <li><a th:href="@{/}">Администратору</a></li>
+                        </ul>
+                        <button class="nav-toggler">
+                            <span></span>
+                        </button>
+                    </nav>
+                </div>
+            </div>
+            <div class=" col-md-2 di_none">
+                <ul class="email text_align_right">
+                    <div th:if="${#httpServletRequest.remoteUser != null}">
+                        <li>
+                            <p th:text="${#httpServletRequest.remoteUser}">
+                                sample_user
+                            </p>
+                        </li>
+                        <li>
+                            <form method="post" th:action="@{/logout}">
+                                <a class="logout" onclick="this.parentNode.submit();">Sign Out</a>
+                            </form>
+                        </li>
+                    </div>
+                    <div th:unless="${#httpServletRequest.remoteUser != null}">
+                        <li>
+                            <div>
+                                <a th:href="@{/login}">Login</a>
+                            </div>
+                        </li>
+                    </div>
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- end header inner -->
 <div th:switch="${films}">
-    <h2 th:case="null">No orders found!</h2>
+    <h2 th:case="null">No films found!</h2>
     <div th:case="*">
-        <h2>Films</h2>
-        <table>
+        <h2 style="align-items: center">Пленка с которой лаборатория производит работу</h2>
+        <table id="customers" class="table_sort">
             <thead>
             <tr>
-                <th>name</th>
-                <th>tech name</th>
-                <th>scan name</th>
-                <th>film price</th>
-                <th>format type</th>
+                <th>Название плёнки</th>
+                <th>Технология проявки</th>
+                <th>Устойство сканирования</th>
+                <th>Стоимость</th>
+                <th>Формат</th>
+                <th sec:authorize="hasRole('ADMIN')">Действие: изменить</th>
+                <th sec:authorize="hasRole('ADMIN')">Действие: удалить</th>
+
             </tr>
             </thead>
             <tbody>
@@ -30,10 +146,94 @@
                 <td th:text="${film.scan_machine.scan_machine}"></td>
                 <td th:text="${film.film_prise}"></td>
                 <td th:text="${film.format_type}"></td>
+
+                <td sec:authorize="hasRole('ADMIN')"><a th:href="@{film-update/{name}(name=${film.name_film})}">Редактировать</a></td>
+                <td sec:authorize="hasRole('ADMIN')"><a th:href="@{film-delete/{name}(name=${film.name_film})}">Удалить</a></td>
+
             </tr>
             </tbody>
         </table>
+        <h5>* Возможна сортировка по нажатию на столбец.</h5>
     </div>
 </div>
+<!-- end footer -->
+<footer>
+    <div class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="menu_footer">
+                        <li><a th:href="@{/}">Домашняя</a></li>
+                        <li><a class="active" th:href="@{/films}">Плёнка</a></li>
+                        <li><a th:href="@{/scans}">Сканирование</a></li>
+                        <li><a th:href="@{/}">Проявка</a></li>
+                        <li><a th:href="@{/orders}">Заказы</a></li>
+                        <li><a th:href="@{/employee}">Сотруднику</a></li>
+                        <li><a th:href="@{/}">Администратору</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-12">
+                    <ul class="top_infomation">
+                        <li><a href="javascript:void(0)"><i><img src="/home/images/loc.png" alt="#"/></i></a></li>
+                        <li><a href="javascript:void(0)"><i><img src="/home/images/call.png" alt="#"/></i></a></li>
+                        <li><a href="javascript:void(0)"><i><img src="/home/images/mail.png" alt="#"/></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <div class="container">
+                <div class="row d_flex">
+                    <div class="col-md-8">
+                        <p>© 2022 All Rights Reserved. Design by  <a th:href="@{/}"> Nikita Hodarenok</a></p>
+                    </div>
+                    <div class="col-md-4">
+                        <ul class="social_icon_bottom ">
+                            <li><a href="Javascript:void(0)"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                            <li><a href="Javascript:void(0)"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                            <li><a href="Javascript:void(0)"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- end footer -->
+<!-- Javascript files-->
+<script src="/home/js/jquery.min.js"></script>
+<script src="/home/js/bootstrap.bundle.min.js"></script>
+<script src="/home/js/jquery-3.0.0.min.js"></script>
+<script src="/home/js/owl.carousel.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.8.1/baguetteBox.min.js"></script>
+<script src="/home/js/custom.js"></script>
+<script type="text/javascript">
+    baguetteBox.run('.tz-gallery');
+</script>
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', () => {
+
+        const getSort = ({ target }) => {
+            const order = (target.dataset.order = -(target.dataset.order || -1));
+            const index = [...target.parentNode.cells].indexOf(target);
+            const collator = new Intl.Collator(['en', 'ru'], { numeric: true });
+            const comparator = (index, order) => (a, b) => order * collator.compare(
+                a.children[index].innerHTML,
+                b.children[index].innerHTML
+            );
+
+            for(const tBody of target.closest('table').tBodies)
+                tBody.append(...[...tBody.rows].sort(comparator(index, order)));
+
+            for(const cell of target.parentNode.cells)
+                cell.classList.toggle('sorted', cell === target);
+        };
+
+        document.querySelectorAll('.table_sort thead').forEach(tableTH => tableTH.addEventListener('click', () => getSort(event)));
+
+    });
+</script>
 </body>
 </html>
+
+

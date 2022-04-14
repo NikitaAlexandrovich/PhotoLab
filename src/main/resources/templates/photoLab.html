@@ -1,17 +1,17 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    <p>Click <a th:href="@{/employee}">here</a> to see a greeting.</p>
-    <p>Registration <a th:href="@{/registration}">here</a></p>
-    <p>Scan <a th:href="@{/scans}">here</a></p>
-    <p>Orders <a th:href="@{/orders}">here</a></p>
-    <p>Films <a th:href="@{/films}">here</a></p>
-</body>
-</html> -->
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Title</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--    <p>Click <a th:href="@{/employee}">here</a> to see a greeting.</p>-->
+<!--    <p>Registration <a th:href="@{/registration}">here</a></p>-->
+<!--    <p>Scan <a th:href="@{/scans}">here</a></p>-->
+<!--    <p>Orders <a th:href="@{/orders}">here</a></p>-->
+<!--    <p>Films <a th:href="@{/films}">here</a></p>-->
+<!--</body>-->
+<!--</html>-->
 
 
 
@@ -65,20 +65,20 @@
                  
                   <div class=" col-md-2 col-sm-3">
                      <div class="logo">
-                        <a href="@{/}">Film<br><span>lab</span></a>
+                        <a th:href="@{/}">Film<br><span>lab</span></a>
                      </div>
                   </div>
                   <div class="col-md-8 col-sm-9">
                      <div class="navbar-area">
                         <nav class="site-navbar">
                            <ul>
-                              <li><a class="active" href="@{/}">Home</a></li>
-                              <li><a href="@{/}">About</a></li>
-                              <li><a href="@{/}">Services</a></li>
-                              <li><a href="@{/}">Gallery</a></li>
-                              <li><a href="@{/}">Projects</a></li>
-                              <li><a href="@{/}">Blog</a></li>
-                              <li><a href="@{/}">Contact</a></li>
+                               <li><a class="active" th:href="@{/}">Домашняя</a></li>
+                               <li><a th:href="@{/films}">Плёнка</a></li>
+                               <li><a th:href="@{/scans}">Сканирование</a></li>
+                               <li><a th:href="@{/}">Проявка</a></li>
+                               <li><a th:href="@{/orders}">Заказы</a></li>
+                               <li><a th:href="@{/employee}">Сотруднику</a></li>
+                               <li><a th:href="@{/}">Администратору</a></li>
                            </ul>
                            <button class="nav-toggler">
                            <span></span>
@@ -87,8 +87,26 @@
                      </div>
                   </div>
                   <div class=" col-md-2 di_none">
-                    <ul class="email text_align_right"><li><a href="Javascript:void(0)">Login</a></li>
-                    <li><a href="Javascript:void(0)"><i class="fa fa-search" aria-hidden="true"></i></a></li>
+                    <ul class="email text_align_right">
+                        <div th:if="${#httpServletRequest.remoteUser != null}">
+                            <li>
+                                <p th:text="${#httpServletRequest.remoteUser}">
+                                    sample_user
+                                </p>
+                            </li>
+                            <li>
+                                <form method="post" th:action="@{/logout}">
+                                    <a class="logout" onclick="this.parentNode.submit();">Sign Out</a>
+                                </form>
+                            </li>
+                        </div>
+                        <div th:unless="${#httpServletRequest.remoteUser != null}">
+                            <li>
+                                <div>
+                                    <a th:href="@{/login}">Login</a>
+                                </div>
+                            </li>
+                        </div>
                     </ul>
                   </div>
                </div>
@@ -103,7 +121,6 @@
               <div class="col-md-5">
                 <div class="creative">
                   <h1>Best PHOTO GRAPHY STudio</h1>
-                  <a class="read_more" href="@{/}">Contact Us</a>
                 </div>
               </div>
               <div class="col-md-7">
@@ -136,7 +153,7 @@
                            <div class="row d_flex">
                              <div class="col-md-12">
                                  <div class="cemara">
-                                  <figure><img src="/home/images/img.png" alt="#"/></figure>
+                                  <figure><img src="/home/images/zenit.png" alt="#"/></figure>
                                  </div>
                               </div>
                            </div>
@@ -150,7 +167,7 @@
                            <div class="row d_flex">
                              <div class="col-md-12">
                                   <div class="cemara">
-                                  <figure><img src="/home/images/img.png" alt="#"/></figure>
+                                  <figure><img src="/home/images/leica2.png" alt="#"/></figure>
                                  </div>
                               </div>
                            </div>
@@ -182,7 +199,7 @@
                <div class="col-md-12">
                   <div class="titlepage text_align_center">
                      <span>01</span>
-                     <h2>Recent Picture Shots</h2>
+                     <h2>Наши работы</h2>
                   </div>
                </div>
             </div>
@@ -190,44 +207,44 @@
                      <div class="row">
                         <div class="col-lg-4 col-md-6 ma_bottom30">
                            <div class="lightbox">
-                              <img src="/main/images/g1.jpg" alt="Bridge">
+                              <img src="/home/images/g1.jpg" alt="Bridge">
                               <div class="view_main">
                                 <div class="pose">
-                                <a class="read_more" href="/main/images/g1.jpg"><img src="/main/images/ga.png" alt="#"/></a>
-                                <p>more-or-less normal distribution of<br> letters, as opposed to using </p>
+                                <a class="read_more" href="/home/images/g1.jpg"><img src="/home/images/ga.png" alt="#"/></a>
+                                <p>Работа Екатерины из США,<br>  занимается фотограйией 2 года.</p>
                               </div>
                               </div>
                            </div>
                         </div>
                         <div class="col-lg-4 col-md-6 ma_bottom30">
                            <div class="lightbox">
-                              <img src="/main/images/g2.jpg" alt="Bridge">
+                              <img src="/home/images/g2.jpg" alt="Bridge">
                               <div class="view_main">
                                   <div class="pose">
-                                <a class="read_more" href="/main/images/g2.jpg"><img src="/main/images/ga.png" alt="#"/></a>
-                                 <p>more-or-less normal distribution of<br> letters, as opposed to using </p>
-                              </div>
+                                      <a class="read_more" href="/home/images/g2.jpg"><img src="/home/images/ga.png" alt="#"/></a>
+                                      <p>Работа Никиты из Турции,<br>  занимается фотограйией 3 года.</p>
+                                  </div>
                             </div>
                            </div>
                   </div>
                         <div class="col-lg-4 col-md-6 ma_bottom30">
                            <div class="lightbox">
-                              <img src="/main/images/g3.jpg" alt="Bridge">
+                              <img src="/home/images/g3.jpg" alt="Bridge">
                               <div class="view_main">
                                   <div class="pose">
-                                 <a class="read_more" href="/main/images/g3.jpg"><img src="/main/images/ga.png" alt="#"/></a>
-                                  <p>more-or-less normal distribution of<br> letters, as opposed to using </p>
+                                 <a class="read_more" href="/home/images/g3.jpg"><img src="/home/images/ga.png" alt="#"/></a>
+                                      <p>Работа Павла из Борисова,<br>  занимается фотограйией 8 лет.</p>
                               </div>
                             </div>
                            </div>
                         </div>
                         <div class="col-lg-4 col-md-6 ma_bottom30">
                            <div class="lightbox">
-                              <img src="/main/images/g4.jpg" alt="Bridge">
+                              <img src="/home/images/g4.jpg" alt="Bridge">
                               <div class="view_main">
                                   <div class="pose">
-                                <a class="read_more" href="/main/images/g4.jpg"><img src="/main/images/ga.png" alt="#"/></a>
-                                 <p>more-or-less normal distribution of<br> letters, as opposed to using </p>
+                                <a class="read_more" href="/home/images/g4.jpg"><img src="/home/images/ga.png" alt="#"/></a>
+                                      <p>Работа Анонима</p>
                               </div>
                            </div>
                          </div>
@@ -238,7 +255,7 @@
                               <div class="view_main">
                                   <div class="pose">
                                 <a class="read_more" href="/home/images/g5.jpg"><img src="/home/images/ga.png" alt="#"/></a>
-                                 <p>more-or-less normal distribution of<br> letters, as opposed to using </p>
+                                      <p>Работа Секретного пользователя</p>
                               </div>
                            </div>
                          </div>
@@ -249,7 +266,7 @@
                               <div class="view_main">
                                   <div class="pose">
                                 <a class="read_more" href="/home/images/g6.jpg"><img src="/home/images/ga.png" alt="#"/></a>
-                                 <p>more-or-less normal distribution of<br> letters, as opposed to using </p>
+                                      <p>Работа Володимира из Киева,<br>  занимается фотограйией 28 дней.</p>
                               </div>
                            </div>
                          </div>
@@ -260,7 +277,7 @@
                               <div class="view_main">
                                   <div class="pose">
                                 <a class="read_more" href="/home/images/g7.jpg"><img src="/home/images/ga.png" alt="#"/></a>
-                                 <p>more-or-less normal distribution of<br> letters, as opposed to using </p>
+                                      <p>Работа Пользователя попросившего Его не раскрывать.</p>
                               </div>
                            </div>
                          </div>
@@ -271,7 +288,7 @@
                               <div class="view_main">
                                   <div class="pose">
                                 <a class="read_more" href="/home/images/g8.jpg"><img src="/home/images/ga.png" alt="#"/></a>
-                                 <p>more-or-less normal distribution of<br> letters, as opposed to using </p>
+                                      <p>Работа Николая из Орши, Беларусь,<br>  занимается фотографией 7 лет.</p>
                               </div>
                            </div>
                          </div>
@@ -282,13 +299,10 @@
                               <div class="view_main">
                                   <div class="pose">
                                 <a class="read_more" href="/home/images/g9.jpg"><img src="/home/images/ga.png" alt="#"/></a>
-                                 <p>more-or-less normal distribution of<br> letters, as opposed to using </p>
+                                      <p>Работа Георгия из Германии,<br>  занимается фотографией 5 лет.</p>
                               </div>
                            </div>
                          </div>
-                  </div>
-                  <div class="col-md-12">
-                    <a class="plus_btn" href="@{/}">+</a>
                   </div>
                </div>
             </div>
@@ -302,9 +316,8 @@
             <div class="col-md-6">
               <div class="titlepage text_align_left">
                 <span>02</span>
-                <h2>About Us</h2>
-                <p>Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model </p>
-                <a class="read_more" href="@{/}">Read More</a>
+                <h2>О нас</h2>
+                <p>PhotoLab создана энтузиастами увлеченными пленочной фотографией и технологиями связанными с ними. Мы предлагаем любому желающему совершить свой первый заказ на проявку, сканирование или покупку плёнки в фотолаборатории PhotoLab.</p>
               </div>
             </div>
             <div class="col-md-6">
@@ -323,7 +336,7 @@
                <div class="col-md-12">
                   <div class="titlepage text_align_center">
                     <span>03</span>
-                     <h2>Our Team</h2>
+                     <h2>Наша команда</h2>
                   </div>
                </div>
                <div class="col-md-4">
@@ -332,8 +345,8 @@
                        <figure><img src="/home/images/team1.jpg" alt="#"/></figure>
                      </div>
                      <div class="craig">
-                       <h3>CRAIG NELSON</h3>
-                       <span>PHOTOGRAPHER</span>
+                       <h3>Пётр</h3>
+                       <span>Генеральный директор</span>
                        <ul class="social_icon ">
                           <li><a href="Javascript:void(0)"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
                           <li><a href="Javascript:void(0)"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
@@ -348,8 +361,8 @@
                        <figure><img src="/home/images/team2.jpg" alt="#"/></figure>
                      </div>
                      <div class="craig">
-                       <h3>JESSIE PRATT</h3>
-                       <span>PHOTOGRAPHER</span>
+                       <h3>Александр</h3>
+                       <span>Фотограф</span>
                        <ul class="social_icon ">
                           <li><a href="Javascript:void(0)"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
                           <li><a href="Javascript:void(0)"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
@@ -364,8 +377,8 @@
                        <figure><img src="/home/images/team3.jpg" alt="#"/></figure>
                      </div>
                      <div class="craig">
-                       <h3>PRATT</h3>
-                       <span>PHOTOGRAPHER</span>
+                       <h3>Василий</h3>
+                       <span>Лаборант</span>
                        <ul class="social_icon ">
                           <li><a href="Javascript:void(0)"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
                           <li><a href="Javascript:void(0)"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
@@ -378,64 +391,6 @@
          </div>
       </div>
       <!-- end team -->
-      <!--  customers -->
-      <div class="customers">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="titlepage text_align_center">
-                <span>04</span>
-                <h2>What is Saying Customers</h2>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-12">
-              <div class="satteb text_align_center">
-                <p>fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that itfact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that itfact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that itfact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it</p>
-                <h3>The point of using </h3>
-                <i><img src="/home/images/custo.jpg" alt="#"/></i>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- end customers  -->
-      <!-- contact -->
-        <div class="contact">
-          <div class="container">
-            <div class="row">
-              <div class="col-md-12 ">
-                <div class="titlepage text_align_center">
-                  <span>05</span>
-                  <h2>Requste A Call Back</h2>
-                </div>
-              </div>
-              <div class="col-md-8 offset-md-2">
-                <form id="request" class="main_form">
-                  <div class="row">
-                    <div class="col-md-12">
-                      <input class="form_control" placeholder="Your name" type="type" name=" Name"> 
-                    </div>
-                    <div class="col-md-12">
-                      <input class="form_control" placeholder="Phone Number" type="type" name="Phone Number">                          
-                    </div>
-                    <div class="col-md-12">
-                      <input class="form_cont" placeholder="Message" type="type" name="message">
-                    </div>
-                    <div class="col-md-12">
-                      <div class="group_form">
-                        <button class="send_btn">Send</button>
-                        <button class="send_btn">Location</button>
-                      </div>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      <!-- end contact -->
       <!-- end footer -->
       <footer>
          <div class="footer">
@@ -443,18 +398,18 @@
                <div class="row">
                         <div class="col-md-12">
                               <ul class="menu_footer">
-                                    <li><a class="active" href="@{/}">Home</a></li>
-                                    <li><a href="@{/}">About</a></li>
-                                    <li><a href="@{/}">Services</a></li>
-                                    <li><a href="@{/}">Gallery</a></li>
-                                    <li><a href="@{/}">Projects</a></li>
-                                    <li><a href="@{/}">Blog</a></li>
-                                    <li><a href="@{/}">Contact</a></li>
+                                  <li><a class="active" th:href="@{/}">Домашняя</a></li>
+                                  <li><a th:href="@{/films}">Плёнка</a></li>
+                                  <li><a th:href="@{/scans}">Сканирование</a></li>
+                                  <li><a th:href="@{/}">Проявка</a></li>
+                                  <li><a th:href="@{/orders}">Заказы</a></li>
+                                  <li><a th:href="@{/employee}">Сотруднику</a></li>
+                                  <li><a th:href="@{/}">Администратору</a></li>
                               </ul>
                         </div>
                         <div class="col-md-12">
                           <ul class="top_infomation">
-                            <li><a href="javascript:void(0)"><i><img src="/mhomeain/images/loc.png" alt="#"/></i></a></li>
+                            <li><a href="javascript:void(0)"><i><img src="/home/images/loc.png" alt="#"/></i></a></li>
                             <li><a href="javascript:void(0)"><i><img src="/home/images/call.png" alt="#"/></i></a></li>
                             <li><a href="javascript:void(0)"><i><img src="/home/images/mail.png" alt="#"/></i></a></li>
                               </ul>
@@ -465,7 +420,7 @@
                <div class="container">
                   <div class="row d_flex">
                      <div class="col-md-8">
-                        <p>© 2022 All Rights Reserved. Design by  <a href="@{/}"> Nikita Hodarenok</a></p>
+                        <p>© 2022 All Rights Reserved. Design by  <a th:href="@{/}"> Nikita Hodarenok</a></p>
                      </div>
                      <div class="col-md-4">
                        <ul class="social_icon_bottom ">
@@ -479,13 +434,6 @@
             </div>
          </div>
       </footer>
-      <div>
-        <p>Click <a th:href="@{/employee}">here</a> to see a greeting.</p>
-        <p>Registration <a th:href="@{/registration}">here</a></p>
-        <p>Scan <a th:href="@{/scans}">here</a></p>
-        <p>Orders <a th:href="@{/orders}">here</a></p>
-        <p>Films <a th:href="@{/films}">here</a></p>
-      </div>
       <!-- end footer -->
       <!-- Javascript files-->
       <script src="/home/js/jquery.min.js"></script>
