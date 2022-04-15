@@ -27,12 +27,10 @@
             color: white;
         }
 
-        .plots{
+        #plots{
             margin:auto;
             background-color: #ffffff;
         }
-
-
     </style>
 
     <!-- basic -->
@@ -135,87 +133,11 @@
     <div class="col-md-12">
         <div class="titlepage text_align_center">
             <span>01</span>
-            <h2>Аппаратные возможности сканирования</h2>
+            <h2>Редактирование плёнки</h2>
         </div>
     </div>
 </div>
-<div th:switch="${scans}">
-    <h2 th:case="null">No scans found!</h2>
-    <div th:case="*">
-        <table id="customers" class="table_sort">
-            <thead>
-            <tr>
-                <th>Название машины сканирования</th>
-                <th>Разрешение сканирования</th>
-                <th>Стоимость</th>
-                <th sec:authorize="hasRole('ADMIN')">Действие: изменить</th>
-                <th sec:authorize="hasRole('ADMIN')">Действие: удалить</th>
-
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="scan : ${scans}">
-                <td th:text="${scan.scan_machine}"></td>
-                <td th:text="${scan.megapixels}"></td>
-                <td th:text="${scan.prise}"></td>
-
-                <td sec:authorize="hasRole('ADMIN')"><a th:href="@{scan-update/{name}(name=${scan.scan_machine})}">Редактировать</a></td>
-                <td sec:authorize="hasRole('ADMIN')"><a th:href="@{scan-delete/{name}(name=${scan.scan_machine})}">Удалить</a></td>
-
-            </tr>
-            </tbody>
-        </table>
-        <h5>* Возможна сортировка по нажатию на столбец.</h5>
-    </div>
-</div>
-</br>
-<div class="row">
-    <div class="col-md-12">
-        <div class="titlepage text_align_center">
-            <span>02</span>
-            <h2>Поиск и фильтрация</h2>
-        </div>
-    </div>
-</div>
-<!-- start поиск -->
-<input class="form-control" type="text" placeholder="Любое поле таблицы" id="search-text" onkeyup="tableSearch()">
-<h5>* Поиск осуществляется по части поля, полному слову любой колонки таблцы. После поиска и фильтрации доступна сортировка колонок.</h5>
-</br>
-<!-- end поиск -->
-<div class="row">
-    <div class="col-md-12">
-        <div class="titlepage text_align_center">
-            <span>03</span>
-            <h2>График стоимости сканирования</h2>
-        </div>
-    </div>
-</div>
-<!-- start graph -->
-<canvas class="plots" id="plots" style="width:100%; max-width:700px"></canvas>
-<br>
-<!-- end graph -->
-<div class="row">
-    <div class="col-md-12">
-        <div class="titlepage text_align_center">
-            <span>04</span>
-            <h2>График разрешения сканирования</h2>
-        </div>
-    </div>
-</div>
-<!-- start graph -->
-<canvas class="plots" id="plotsMega" style="width:100%; max-width:700px"></canvas>
-<br>
-<!-- end graph -->
-
-<div sec:authorize="hasRole('ADMIN')" class="row">
-    <div class="col-md-12">
-        <div class="titlepage text_align_center">
-            <span>05</span>
-            <h2>Создание пленки</h2>
-        </div>
-    </div>
-</div>
-<form sec:authorize="hasRole('ADMIN')" class="row" th:action="@{/scan-create}" th:object="${newScan}" method="post">
+<form th:action="@{/scan-update}" th:object="${scan}" method="post">
     <div class="container">
 
         <div class="col-md-6 col-sm-6 col-xs-12 col-lg-4">
@@ -235,6 +157,9 @@
         <input type="submit" value="Сохранить изменения" class="logout">
     </div>
 </form>
+</br>
+
+<!-- end graph -->
 <!-- end footer -->
 <footer>
     <div class="footer">
@@ -291,65 +216,6 @@
 </script>
 <script src="/js/filter-search.js"></script>
 <script src="/js/sort-table.js"></script>
-<script type="text/javascript">
-    var labels = [];
-    var data = [];
-    var dataMega = [];
-    var oTable = document.getElementById('customers');
-    var rowLength = oTable.rows.length;
-    for (i = 1; i < rowLength; i++){
-        var oCells = oTable.rows.item(i).cells;
-        var label = oCells.item(0).innerHTML;
-        labels.push(label)
-
-        var cellVal = oCells.item(2).innerHTML;
-        data.push(cellVal)
-        dataMega.push(oCells.item(1).innerHTML)
-    }
-
-    plots = document.getElementById("plots");
-    new Chart(plots, {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: [{
-                data: data,
-                backgroundColor: '#f6388e',
-            }]
-        },
-        options:{
-            legend: {display: false},
-        }
-    });
-
-    plotsMega = document.getElementById("plotsMega");
-    new Chart(plotsMega, {
-        type: 'pie', //Declare the chart type
-        data: {
-            labels: labels, //Defines each segment
-            datasets: [{
-                data: dataMega, //Determines segment size
-                //Color of each segment
-                backgroundColor: [
-                    "rgba(196, 190, 183)",
-                    "rgba(21, 227, 235)",
-                    "rgba(7, 150, 245)",
-                    "rgba(240, 5, 252)",
-                    "rgba(252, 5, 79)",
-                    "rgb(0,12,255)",
-                    "rgb(17, 252, 5)"],
-            }]
-        },
-        options:{
-            legend: {display: true}, //This is true by default.
-
-        }
-
-    });
-
-
-
-</script>
 </body>
 </html>
 

@@ -1,5 +1,6 @@
 package com.analogfilm.photolab.servise;
 
+import com.analogfilm.photolab.models.Film;
 import com.analogfilm.photolab.models.Scan;
 import com.analogfilm.photolab.repository.ScanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,4 +22,10 @@ public class ScanService {
     public List<Scan> findAll() {
         return scanRepository.findAll();
     }
+
+    public void deleteScan(String name) {
+        scanRepository.deleteById(name);
+    }
+    public Scan findByName(String name) { return scanRepository.getById(name); }
+    public Scan saveScan(Scan scan) { return scanRepository.save(scan); }
 }
