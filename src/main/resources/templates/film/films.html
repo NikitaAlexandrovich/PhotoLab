@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5" xmlns="http://www.w3.org/1999/html">
 <head>
 
     <style>
@@ -25,6 +25,11 @@
             text-align: center;
             background-color: #f6388e;
             color: white;
+        }
+
+        #plots{
+            margin:auto;
+            background-color: #ffffff;
         }
     </style>
 
@@ -58,6 +63,7 @@
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
 </head>
 <!-- body -->
 <body class="main-layout">
@@ -122,10 +128,18 @@
     </div>
 </header>
 <!-- end header inner -->
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="titlepage text_align_center">
+            <span>01</span>
+            <h2>Пленка с которой лаборатория производит работу</h2>
+        </div>
+    </div>
+</div>
 <div th:switch="${films}">
     <h2 th:case="null">No films found!</h2>
     <div th:case="*">
-        <h2 style="align-items: center">Пленка с которой лаборатория производит работу</h2>
         <table id="customers" class="table_sort">
             <thead>
             <tr>
@@ -156,6 +170,34 @@
         <h5>* Возможна сортировка по нажатию на столбец.</h5>
     </div>
 </div>
+</br>
+<div class="row">
+    <div class="col-md-12">
+        <div class="titlepage text_align_center">
+            <span>02</span>
+            <h2>Поиск и фильтрация</h2>
+        </div>
+    </div>
+</div>
+<!-- start поиск -->
+<input class="form-control" type="text" placeholder="Любое поле таблицы" id="search-text" onkeyup="tableSearch()">
+<h5>* Поиск осуществляется по части поля, полному слову любой колонки таблцы. После поиска и фильтрации доступна сортировка колонок.</h5>
+</br>
+<!-- end поиск -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="titlepage text_align_center">
+            <span>03</span>
+            <h2>График стоимости</h2>
+        </div>
+    </div>
+</div>
+<!-- start graph -->
+
+<canvas id="plots" style="width:100%; max-width:700px"></canvas>
+
+
+<!-- end graph -->
 <!-- end footer -->
 <footer>
     <div class="footer">
@@ -210,28 +252,38 @@
 <script type="text/javascript">
     baguetteBox.run('.tz-gallery');
 </script>
+<script src="/js/filter-search.js"></script>
+<script src="/js/sort-table.js"></script>
+<!--<script src="/js/chart.js"></script>-->
 <script type="text/javascript">
-    document.addEventListener('DOMContentLoaded', () => {
+    var labels = [];
+    var data = [];
+    var oTable = document.getElementById('customers');
+    var rowLength = oTable.rows.length;
+    for (i = 1; i < rowLength; i++){
+        var oCells = oTable.rows.item(i).cells;
+        var label = oCells.item(0).innerHTML;
+        labels.push(label)
 
-        const getSort = ({ target }) => {
-            const order = (target.dataset.order = -(target.dataset.order || -1));
-            const index = [...target.parentNode.cells].indexOf(target);
-            const collator = new Intl.Collator(['en', 'ru'], { numeric: true });
-            const comparator = (index, order) => (a, b) => order * collator.compare(
-                a.children[index].innerHTML,
-                b.children[index].innerHTML
-            );
+        var cellVal = oCells.item(3).innerHTML;
+        data.push(cellVal)
+    }
 
-            for(const tBody of target.closest('table').tBodies)
-                tBody.append(...[...tBody.rows].sort(comparator(index, order)));
-
-            for(const cell of target.parentNode.cells)
-                cell.classList.toggle('sorted', cell === target);
-        };
-
-        document.querySelectorAll('.table_sort thead').forEach(tableTH => tableTH.addEventListener('click', () => getSort(event)));
-
+    plots = document.getElementById("plots");
+    new Chart(plots, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                data: data,
+                backgroundColor: '#f6388e',
+            }]
+        },
+        options:{
+            legend: {display: false},
+        }
     });
+
 </script>
 </body>
 </html>
