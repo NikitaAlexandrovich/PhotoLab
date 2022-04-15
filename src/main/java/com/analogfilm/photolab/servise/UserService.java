@@ -17,8 +17,8 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User findById(String id) {
-        return userRepository.getOne(id);
+    public User findByName(String id) {
+        return userRepository.getUserByUsername(id);
     }
 
     public List<User> findAll() {
@@ -28,6 +28,12 @@ public class UserService {
     public User saveUser(User user) {
         user.setPassword((new BCryptPasswordEncoder()).encode(user.getPassword()));
         if (user.getRole()==null) user.setRole("ROLE_USER");
+        return userRepository.save(user);
+    }
+
+    public User saveAdmin(User user) {
+        user.setPassword((new BCryptPasswordEncoder()).encode(user.getPassword()));
+        if (user.getRole()==null) user.setRole("ROLE_ADMIN");
         return userRepository.save(user);
     }
 

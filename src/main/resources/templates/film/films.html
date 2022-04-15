@@ -90,7 +90,7 @@
                             <li><a th:href="@{/}">Домашняя</a></li>
                             <li><a class="active" th:href="@{/films}">Плёнка</a></li>
                             <li><a th:href="@{/scans}">Сканирование</a></li>
-                            <li><a th:href="@{/}">Проявка</a></li>
+                            <li><a th:href="@{/technology}">Проявка</a></li>
                             <li><a th:href="@{/orders}">Заказы</a></li>
                             <li sec:authorize="hasRole('EMPLOYEE')"><a th:href="@{/employee}">Сотруднику</a></li>
                             <li sec:authorize="hasRole('ADMIN')"><a th:href="@{/}">Администратору</a></li>
@@ -111,14 +111,14 @@
                         </li>
                         <li>
                             <form method="post" th:action="@{/logout}">
-                                <a class="logout" onclick="this.parentNode.submit();">Sign Out</a>
+                                <a class="logout" onclick="this.parentNode.submit();">Выйти</a>
                             </form>
                         </li>
                     </div>
                     <div th:unless="${#httpServletRequest.remoteUser != null}">
                         <li>
                             <div>
-                                <a th:href="@{/login}">Login</a>
+                                <a th:href="@{/login}">Войти</a>
                             </div>
                         </li>
                     </div>
@@ -168,6 +168,9 @@
             </tbody>
         </table>
         <h5>* Возможна сортировка по нажатию на столбец.</h5>
+        <form method="get" th:action="@{/films/export/pdf}" style="margin: auto">
+            <a class="logout" onclick="this.parentNode.submit();" style="text-decoration-color: #111111">Экспорт таблицы в PDF</a>
+        </form>
     </div>
 </div>
 </br>
@@ -219,9 +222,7 @@
             <label for="tech_name" class="required">Технология проявки</label><br>
             <select class="select2-container form-control" id="tech_name" th:name="tech_name" th:field="*{tech_name}" required>
                 <div  th:each="tech : ${techs}">
-                    <div th:switch="${tech.tech_name}">
-                        <option th:value="${tech.tech_name}" th:text="${tech.tech_name}"></option>
-                    </div>
+                    <option th:value="${tech.tech_name}" th:text="${tech.tech_name}"></option>
                 </div>
             </select>
 
@@ -262,7 +263,7 @@
                         <li><a th:href="@{/}">Домашняя</a></li>
                         <li><a class="active" th:href="@{/films}">Плёнка</a></li>
                         <li><a th:href="@{/scans}">Сканирование</a></li>
-                        <li><a th:href="@{/}">Проявка</a></li>
+                        <li><a th:href="@{/technology}">Проявка</a></li>
                         <li><a th:href="@{/orders}">Заказы</a></li>
                         <li sec:authorize="hasRole('EMPLOYEE')"><a th:href="@{/employee}">Сотруднику</a></li>
                         <li sec:authorize="hasRole('ADMIN')"><a th:href="@{/}">Администратору</a></li>

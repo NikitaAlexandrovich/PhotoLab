@@ -21,4 +21,9 @@ public class TechnologyService {
     public List<Technology> findAll() {
         return techRepository.findAll();
     }
+    public void deleteTech(String name) {
+        techRepository.deleteById(name);
+    }
+    public Technology findByName(String name) { return techRepository.getById(name); }
+    public Technology saveTech(Technology tech) { return techRepository.save(tech); }
 }

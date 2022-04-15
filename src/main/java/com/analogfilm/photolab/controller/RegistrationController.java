@@ -30,4 +30,17 @@ public class RegistrationController {
         userService.saveUser(user);
         return "redirect:/login";
     }
+
+
+
+    @GetMapping("/registrationAdmin")
+    public String registrationAdmin() {
+        return "registrationAdmin";
+    }
+
+    @PostMapping("/registrationAdmin")
+    public String registrationAdmin(User user){
+        userService.saveAdmin(user);
+        return "redirect:/";
+    }
 }

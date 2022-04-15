@@ -40,10 +40,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
     <!-- site metas -->
-    <title>Photo Lab Films</title>
+    <title>Photo Lab Tech</title>
     <meta name="keywords" content="">
     <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="author" content="Nikita Hodarenok">
     <!-- bootstrap css -->
 
     <!--       <link rel="stylesheet" th:href="@{/main/css/bootstrap.min.css}">-->
@@ -89,8 +89,8 @@
                         <ul>
                             <li><a th:href="@{/}">Домашняя</a></li>
                             <li><a th:href="@{/films}">Плёнка</a></li>
-                            <li><a class="active" th:href="@{/scans}">Сканирование</a></li>
-                            <li><a th:href="@{/technology}">Проявка</a></li>
+                            <li><a th:href="@{/scans}">Сканирование</a></li>
+                            <li><a class="active" th:href="@{/technology}">Проявка</a></li>
                             <li><a th:href="@{/orders}">Заказы</a></li>
                             <li sec:authorize="hasRole('EMPLOYEE')"><a th:href="@{/employee}">Сотруднику</a></li>
                             <li sec:authorize="hasRole('ADMIN')"><a th:href="@{/}">Администратору</a></li>
@@ -137,21 +137,21 @@
         </div>
     </div>
 </div>
-<form th:action="@{/scan-update}" th:object="${scan}" method="post">
+<form th:action="@{/technology-update}" th:object="${tech}" method="post">
     <div class="container">
 
         <div class="col-md-6 col-sm-6 col-xs-12 col-lg-4">
-            <label for="scan_machine" class="required">Название машины</label><br>
-            <input type="text" class="form-control" id="scan_machine" th:field="*{scan_machine}" required>
+            <label for="tech_name" class="required">Название технологии</label><br>
+            <input type="text" class="form-control" id="tech_name" th:field="*{tech_name}" required>
         </div>
         <div class="col-md-6 col-sm-6 col-xs-12 col-lg-4">
-            <label for="megapixels" class="required">Разрешение сканирования</label><br>
-            <input required type="number" class="form-control" id="megapixels" th:field="*{megapixels}" min="1" step="0.1">
+            <label for="price" class="required">Стоимость проявки</label><br>
+            <input required type="number" class="form-control" id="price" th:field="*{price}" min="1" step="0.1">
         </div>
 
         <div class="col-md-6 col-sm-6 col-xs-12 col-lg-4">
-            <label for="prise" class="required">Стоимость</label><br>
-            <input required type="number" class="form-control" id="prise" th:field="*{prise}" min="1" step="0.1">
+            <label for="time_to_process" class="required">Время проявки</label><br>
+            <input required type="number" class="form-control" id="time_to_process" th:field="*{time_to_process}" min="1" step="1">
         </div>
         <br>
         <input type="submit" value="Сохранить изменения" class="logout">
@@ -169,8 +169,8 @@
                     <ul class="menu_footer">
                         <li><a th:href="@{/}">Домашняя</a></li>
                         <li><a th:href="@{/films}">Плёнка</a></li>
-                        <li><a class="active" th:href="@{/scans}">Сканирование</a></li>
-                        <li><a th:href="@{/technology}">Проявка</a></li>
+                        <li><a th:href="@{/scans}">Сканирование</a></li>
+                        <li><a class="active" th:href="@{/technology}">Проявка</a></li>
                         <li><a th:href="@{/orders}">Заказы</a></li>
                         <li sec:authorize="hasRole('EMPLOYEE')"><a th:href="@{/employee}">Сотруднику</a></li>
                         <li sec:authorize="hasRole('ADMIN')"><a th:href="@{/}">Администратору</a></li>

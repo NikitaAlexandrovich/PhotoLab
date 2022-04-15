@@ -76,7 +76,7 @@
                                <li><a class="active" th:href="@{/}">Домашняя</a></li>
                                <li><a th:href="@{/films}">Плёнка</a></li>
                                <li><a th:href="@{/scans}">Сканирование</a></li>
-                               <li><a th:href="@{/}">Проявка</a></li>
+                               <li><a th:href="@{/technology}">Проявка</a></li>
                                <li><a th:href="@{/orders}">Заказы</a></li>
                                <li sec:authorize="hasRole('EMPLOYEE')"><a th:href="@{/employee}">Сотруднику</a></li>
                                <li sec:authorize="hasRole('ADMIN')"><a th:href="@{/}">Администратору</a></li>
@@ -97,14 +97,14 @@
                             </li>
                             <li>
                                 <form method="post" th:action="@{/logout}">
-                                    <a class="logout" onclick="this.parentNode.submit();">Sign Out</a>
+                                    <a class="logout" onclick="this.parentNode.submit();">Выйти</a>
                                 </form>
                             </li>
                         </div>
                         <div th:unless="${#httpServletRequest.remoteUser != null}">
                             <li>
                                 <div>
-                                    <a th:href="@{/login}">Login</a>
+                                    <a th:href="@{/login}">Войти</a>
                                 </div>
                             </li>
                         </div>
@@ -402,7 +402,7 @@
                                   <li><a class="active" th:href="@{/}">Домашняя</a></li>
                                   <li><a th:href="@{/films}">Плёнка</a></li>
                                   <li><a th:href="@{/scans}">Сканирование</a></li>
-                                  <li><a th:href="@{/}">Проявка</a></li>
+                                  <li><a th:href="@{/technology}">Проявка</a></li>
                                   <li><a th:href="@{/orders}">Заказы</a></li>
                                   <li sec:authorize="hasRole('EMPLOYEE')"><a th:href="@{/employee}">Сотруднику</a></li>
                                   <li sec:authorize="hasRole('ADMIN')"><a th:href="@{/}">Администратору</a></li>
