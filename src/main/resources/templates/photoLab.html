@@ -17,7 +17,8 @@
 
 
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5" xmlns="http://www.w3.org/1999/html">
    <head>
       <!-- basic -->
       <meta charset="utf-8">
@@ -77,8 +78,8 @@
                                <li><a th:href="@{/scans}">Сканирование</a></li>
                                <li><a th:href="@{/}">Проявка</a></li>
                                <li><a th:href="@{/orders}">Заказы</a></li>
-                               <li><a th:href="@{/employee}">Сотруднику</a></li>
-                               <li><a th:href="@{/}">Администратору</a></li>
+                               <li sec:authorize="hasRole('EMPLOYEE')"><a th:href="@{/employee}">Сотруднику</a></li>
+                               <li sec:authorize="hasRole('ADMIN')"><a th:href="@{/}">Администратору</a></li>
                            </ul>
                            <button class="nav-toggler">
                            <span></span>
@@ -86,7 +87,7 @@
                         </nav>
                      </div>
                   </div>
-                  <div class=" col-md-2 di_none">
+                  <div class="col-md-2 di_none">
                     <ul class="email text_align_right">
                         <div th:if="${#httpServletRequest.remoteUser != null}">
                             <li>
@@ -403,8 +404,8 @@
                                   <li><a th:href="@{/scans}">Сканирование</a></li>
                                   <li><a th:href="@{/}">Проявка</a></li>
                                   <li><a th:href="@{/orders}">Заказы</a></li>
-                                  <li><a th:href="@{/employee}">Сотруднику</a></li>
-                                  <li><a th:href="@{/}">Администратору</a></li>
+                                  <li sec:authorize="hasRole('EMPLOYEE')"><a th:href="@{/employee}">Сотруднику</a></li>
+                                  <li sec:authorize="hasRole('ADMIN')"><a th:href="@{/}">Администратору</a></li>
                               </ul>
                         </div>
                         <div class="col-md-12">

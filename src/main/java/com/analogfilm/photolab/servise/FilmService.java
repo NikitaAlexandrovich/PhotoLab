@@ -17,4 +17,9 @@ public class FilmService {
     }
 
     public List<Film> findAll() { return filmRepository.findAll(); }
+    public void deleteFilm(String name) {
+        filmRepository.deleteById(name);
+    }
+    public Film findByName(String name) { return filmRepository.getById(name); }
+    public Film saveFilm(Film film) { return filmRepository.save(film); }
 }
