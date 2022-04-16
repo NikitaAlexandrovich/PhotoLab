@@ -27,9 +27,9 @@ public class OrderService {
         this.orderRepository = orderRepository;
     }
 
-//    public List<Order> findAll() {
-//        return orderRepository.getAllOrders();
-//    }
+    public List<Order> findAll() {
+        return orderRepository.getAllOrders();
+    }
     public List<Order> findByUserName(User name) {
         return orderRepository.getOrdersByUserName(name.getUsername());
     }

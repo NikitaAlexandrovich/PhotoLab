@@ -14,4 +14,10 @@ public interface UserRepository extends JpaRepository<User, String> {
 
     @Query(value = "SELECT t.* FROM FilmLab.User t WHERE role like 'ROLE_EMPLOYEE'", nativeQuery = true)
     List<User> getAllEmployee();
+
+    @Query(value = "SELECT t.* FROM FilmLab.User t WHERE role like 'ROLE_ADMIN'", nativeQuery = true)
+    List<User> getAllAdmins();
+
+    @Query(value = "SELECT t.* FROM FilmLab.User t WHERE role like 'ROLE_USER'", nativeQuery = true)
+    List<User> getAllClient();
 }

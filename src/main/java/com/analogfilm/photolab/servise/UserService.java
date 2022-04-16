@@ -37,12 +37,26 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public User saveEmployee(User user) {
+        user.setPassword((new BCryptPasswordEncoder()).encode(user.getPassword()));
+        if (user.getRole()==null) user.setRole("ROLE_EMPLOYEE");
+        return userRepository.save(user);
+    }
+
     public void deleteById(String id) {
         userRepository.deleteById(id);
     }
 
     public List<User> getAllEmployee() {
         return userRepository.getAllEmployee();
+    }
+
+    public List<User> getAllAdmins() {
+        return userRepository.getAllAdmins();
+    }
+
+    public List<User> getAllClient() {
+        return userRepository.getAllClient();
     }
 
 }

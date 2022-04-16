@@ -104,23 +104,31 @@
     <div class="col-md-12">
         <div class="titlepage text_align_center">
             <span>01</span>
-            <h2>Управление аккаунтом администратора</h2>
+            <h2>Управление аккаунтом сотрудника</h2><br>
+            <br>
+            <h2 th:text="${admin.username}"></h2>
         </div>
     </div>
 </div>
-<form th:action="@{/admin/admin-update}" th:object="${admin}" method="post">
+
+<form th:action="@{/admin/employee-update}" method="post">
     <div class="container">
-
-        <div class="col-md-6 col-sm-6 col-xs-12 col-lg-4">
-            <label for="username" class="required">Логин</label><br>
-            <input disabled type="text" class="form-control" id="username" th:field="*{username}" th:value="*{username}" required>
+        <div class="col-md-6 col-sm-6 col-xs-12 col-lg-4" data-validate = "Valid email is required: ex@abc.xyz">
+<!--            <label class="required">Логин</label><br>-->
+            <input hidden class="form-control" type="text" name="username" placeholder="Email/User name" th:value="${admin.username}">
         </div>
 
-        <div class="col-md-6 col-sm-6 col-xs-12 col-lg-4">
-            <label for="password" class="required">Новый пароль</label><br>
-            <input type="password" class="form-control" id="password" th:field="*{password}" required>
+        <div class="col-md-6 col-sm-6 col-xs-12 col-lg-4" data-validate = "Password is required">
+            <label class="required">Новый пароль</label><br>
+            <input class="form-control" type="password" name="password" placeholder="Password" required>
         </div>
-        <input type="submit" value="Сохранить изменения" class="logout">
+
+        <br>
+        <div class="logout">
+            <button class="logout">
+                Обновть аккаунт сотрудника
+            </button>
+        </div>
     </div>
 </form>
 </br>

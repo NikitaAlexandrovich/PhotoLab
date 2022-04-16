@@ -31,8 +31,6 @@ public class RegistrationController {
         return "redirect:/login";
     }
 
-
-
     @GetMapping("/registrationAdmin")
     public String registrationAdmin() {
         return "registrationAdmin";
@@ -41,6 +39,6 @@ public class RegistrationController {
     @PostMapping("/registrationAdmin")
     public String registrationAdmin(User user){
         userService.saveAdmin(user);
-        return "redirect:/";
+        return "redirect:/admin";
     }
 }

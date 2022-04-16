@@ -22,16 +22,6 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/employee")
-    public String findAll(Model model){
-        List<User> users = userService.findAll();
-        model.addAttribute("users", users);
-        return "users";
-    }
-
-    @GetMapping("/user-create")
-    public String userCreate() { return "OLDlogin"; }
-
     @GetMapping("/user-account/{name}")
     public String userAcc(@PathVariable("name") User user, Model model) {
 
