@@ -34,7 +34,9 @@ public class OrderService {
         return orderRepository.getOrdersByUserName(name.getUsername());
     }
 
-    public List<Order> findByEmployeeName(String employeeName) { return orderRepository.getEmployeeOrder(employeeName); }
+    public List<Order> findByEmployeeNameInProgress(String employeeName) { return orderRepository.getEmployeeOrderInProgress(employeeName); }
+    public List<Order> findByEmployeeNameArchive(String employeeName) { return orderRepository.getEmployeeOrderArchive(employeeName); }
+
 
     public Order saveOrder(Order order) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -52,6 +54,10 @@ public class OrderService {
         order.setOrder_cost(cost);
         orderRepository.saveOrder(order.getUsername().getUsername(), order.getEmployee_name().getUsername(), order.getName_film().getName_film(), order.isIn_progress(), order.isNeed_develop(), order.isNeed_scan(), order.getOrder_cost());
         return order;
+    }
+
+    public void doneOrderById(Long id) {
+        orderRepository.doneOrderById(id);
     }
 
 }

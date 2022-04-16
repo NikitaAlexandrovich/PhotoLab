@@ -61,9 +61,8 @@
                             <li><a th:href="@{/technology}">Проявка</a></li>
                             <li><a th:href="@{/orders/{name}(name=${#httpServletRequest.remoteUser})}">Заказы</a></li>
                             <li sec:authorize="hasRole('USER')"><a th:href="@{/user-account/{name}(name=${#httpServletRequest.remoteUser})}">Аккаунт</a></li>
-
                             <li sec:authorize="hasRole('EMPLOYEE')"><a th:href="@{/employee/{name}(name=${#httpServletRequest.remoteUser})}">Сотруднику</a></li>
-                            <li sec:authorize="hasRole('ADMIN')"><a th:href="@{/aaaaaadmin/{name}(name=${#httpServletRequest.remoteUser})}">Администратору</a></li>
+                            <li sec:authorize="hasRole('ADMIN')"><a th:href="@{/admin}">Администратору</a></li>
                         </ul>
                         <button class="nav-toggler">
                             <span></span>
@@ -148,7 +147,7 @@
                         <li><a th:href="@{/orders/{name}(name=${#httpServletRequest.remoteUser})}">Заказы</a></li>
                         <li sec:authorize="hasRole('USER')"><a th:href="@{/user-account/{name}(name=${#httpServletRequest.remoteUser})}">Аккаунт</a></li>
                         <li sec:authorize="hasRole('EMPLOYEE')"><a th:href="@{/employee/{name}(name=${#httpServletRequest.remoteUser})}">Сотруднику</a></li>
-                        <li sec:authorize="hasRole('ADMIN')"><a th:href="@{/aaaaaadmin/{name}(name=${#httpServletRequest.remoteUser})}">Администратору</a></li>
+                        <li sec:authorize="hasRole('ADMIN')"><a th:href="@{/admin}">Администратору</a></li>
                     </ul>
                 </div>
                 <div class="col-md-12">

@@ -27,12 +27,86 @@
             color: white;
         }
 
-        .plots{
-            margin:auto;
-            background-color: #ffffff;
+
+        #admins {
+            /*font-family: Arial, Helvetica, sans-serif;*/
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        #admins td, #admins th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        #admins tr:nth-child(even){background-color: #f2f2f2;}
+
+        #admins tr:hover {background-color: #ddd;}
+
+        #admins th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: center;
+            background-color: #f6388e;
+            color: white;
         }
 
 
+
+        #clients {
+            /*font-family: Arial, Helvetica, sans-serif;*/
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        #clients td, #clients th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        #clients tr:nth-child(even){background-color: #f2f2f2;}
+
+        #clients tr:hover {background-color: #ddd;}
+
+        #clients th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: center;
+            background-color: #f6388e;
+            color: white;
+        }
+
+        #employee {
+            /*font-family: Arial, Helvetica, sans-serif;*/
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        #employee td, #employee th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        #employee tr:nth-child(even){background-color: #f2f2f2;}
+
+        #employee tr:hover {background-color: #ddd;}
+
+        #employee th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: center;
+            background-color: #f6388e;
+            color: white;
+        }
+
+
+
+
+
+        #plots{
+            margin:auto;
+            background-color: #ffffff;
+        }
     </style>
 
     <!-- basic -->
@@ -42,7 +116,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
     <!-- site metas -->
-    <title>Photo Lab Tech</title>
+    <title>Employee</title>
     <meta name="keywords" content="">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -136,48 +210,63 @@
     <div class="col-md-12">
         <div class="titlepage text_align_center">
             <span>01</span>
-            <h2>Возможности проявки</h2>
+            <h2>Заказы сотрудника к выполнению</h2>
         </div>
     </div>
 </div>
-<div th:switch="${techs}">
-    <h2 th:case="null">No technology found!</h2>
+<div th:switch="${ordersProgress}">
+    <h2 th:case="null">No order found!</h2>
     <div th:case="*">
         <table id="customers" class="table_sort">
             <thead>
             <tr>
-                <th>Название технологии проявки</th>
-                <th>Стоимость</th>
-                <th>Время на проявку</th>
-                <th sec:authorize="hasRole('ADMIN')">Действие: изменить</th>
-                <th sec:authorize="hasRole('ADMIN')">Действие: удалить</th>
-
+                <th>Номер заказа</th>
+                <th>Клиент</th>
+                <th>Название плёнки</th>
+                <th>Технология проявки</th>
+                <th>Устойство сканирования</th>
+                <th>Статус</th>
+                <th>Проявка</th>
+                <th>Сканирование</th>
+                <th>Стоимость заказа</th>
+                <th>Действие сотрудника</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="tech : ${techs}">
-                <td th:text="${tech.tech_name}"></td>
-                <td th:text="${tech.price}"></td>
-                <td th:text="${tech.time_to_process}"></td>
-
-                <td sec:authorize="hasRole('ADMIN')"><a th:href="@{technology-update/{name}(name=${tech.tech_name})}">Редактировать</a></td>
-                <td sec:authorize="hasRole('ADMIN')"><a th:href="@{technology-delete/{name}(name=${tech.tech_name})}">Удалить</a></td>
-
+            <tr th:each="order : ${ordersProgress}">
+                <td th:text="${order.id}"></td>
+                <td th:text="${order.username.username}"></td>
+                <td><a th:text="${order.name_film.name_film}" th:href="@{/films}"></a></td>
+                <td><a th:text="${order.name_film.tech_name.tech_name}" th:href="@{/technology}"></a></td>
+                <td><a th:text="${order.name_film.scan_machine.scan_machine}" th:href="@{/scans}"></a></td>
+                <div th:switch="${order.in_progress}">
+                    <td th:case="true">Выполняется</td>
+                    <td th:case="false">Завершен</td>
+                </div>
+                <div th:switch="${order.need_develop}">
+                    <td th:case="true">Требуется</td>
+                    <td th:case="false">Не требуется</td>
+                </div>
+                <div th:switch="${order.need_scan}">
+                    <td th:case="true">Требуется</td>
+                    <td th:case="false">Не требуется</td>
+                </div>
+                <td th:text="${order.order_cost}"></td>
+                <td><a th:href="@{/employee/order-done/{id}(id=${order.getId()})}">Выполнить заказ</a></td>
             </tr>
             </tbody>
         </table>
         <h5>* Возможна сортировка по нажатию на столбец.</h5>
-        <form method="get" th:action="@{/technology/export/pdf}" style="padding-left: 10px">
-            <a class="logout" onclick="this.parentNode.submit();" style="text-decoration-color: #111111">Экспорт таблицы в PDF</a>
-        </form>
     </div>
 </div>
 </br>
+
+
 <div class="row">
     <div class="col-md-12">
         <div class="titlepage text_align_center">
             <span>02</span>
-            <h2>Поиск и фильтрация</h2>
+            <h2>Поиск и фильтрация заказов</h2>
         </div>
     </div>
 </div>
@@ -190,55 +279,82 @@
     <div class="col-md-12">
         <div class="titlepage text_align_center">
             <span>03</span>
-            <h2>График времени проявки</h2>
+            <h2>График стоимости всех заказов к выполению</h2>
         </div>
     </div>
 </div>
 <!-- start graph -->
-<canvas class="plots" id="plots" style="width:100%; max-width:700px"></canvas>
-<br>
+<canvas id="plots" style="width:100%; max-width:700px"></canvas>
 <!-- end graph -->
+<br>
+
 <div class="row">
     <div class="col-md-12">
         <div class="titlepage text_align_center">
             <span>04</span>
-            <h2>График стоимости проявки</h2>
+            <h2>Список архивных(выполненых) заказов</h2>
         </div>
     </div>
 </div>
-<!-- start graph -->
-<canvas class="plots" id="plotsMega" style="width:100%; max-width:700px"></canvas>
-<br>
-<!-- end graph -->
+<div th:switch="${ordersArchive}">
+    <h2 th:case="null">No admins found!</h2>
+    <div th:case="*">
+        <table id="admins" class="table_sort">
+            <thead>
+            <tr>
+                <th>Номер заказа</th>
+                <th>Клиент</th>
+                <th>Название плёнки</th>
+                <th>Технология проявки</th>
+                <th>Устойство сканирования</th>
+                <th>Статус</th>
+                <th>Проявка</th>
+                <th>Сканирование</th>
+                <th>Стоимость заказа</th>
 
-<div sec:authorize="hasRole('ADMIN')" class="row">
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="order : ${ordersArchive}">
+                <td th:text="${order.id}"></td>
+                <td th:text="${order.username.username}"></td>
+                <td><a th:text="${order.name_film.name_film}" th:href="@{/films}"></a></td>
+                <td><a th:text="${order.name_film.tech_name.tech_name}" th:href="@{/technology}"></a></td>
+                <td><a th:text="${order.name_film.scan_machine.scan_machine}" th:href="@{/scans}"></a></td>
+                <div th:switch="${order.in_progress}">
+                    <td th:case="true">Выполняется</td>
+                    <td th:case="false">Завершен</td>
+                </div>
+                <div th:switch="${order.need_develop}">
+                    <td th:case="true">Требуется</td>
+                    <td th:case="false">Не требуется</td>
+                </div>
+                <div th:switch="${order.need_scan}">
+                    <td th:case="true">Требуется</td>
+                    <td th:case="false">Не требуется</td>
+                </div>
+                <td th:text="${order.order_cost}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <h5>* Возможна сортировка по нажатию на столбец.</h5>
+    </div>
+</div>
+</br>
+<div class="row">
     <div class="col-md-12">
         <div class="titlepage text_align_center">
             <span>05</span>
-            <h2>Создание записи проявки</h2>
+            <h2>Поиск и фильтрация архива заказов</h2>
         </div>
     </div>
 </div>
-<form sec:authorize="hasRole('ADMIN')" class="row" th:action="@{/technology-create}" th:object="${newTech}" method="post">
-    <div class="container">
+<!-- start поиск -->
+<input class="form-control" type="text" placeholder="Любое поле таблицы" id="search-admin" onkeyup="tableSearchAdmin()">
+<h5>* Поиск осуществляется по части поля, полному слову любой колонки таблцы. После поиска и фильтрации доступна сортировка колонок.</h5>
+</br>
 
-        <div class="col-md-6 col-sm-6 col-xs-12 col-lg-4">
-            <label for="tech_name" class="required">Название технологии</label><br>
-            <input type="text" class="form-control" id="tech_name" th:field="*{tech_name}" required>
-        </div>
-        <div class="col-md-6 col-sm-6 col-xs-12 col-lg-4">
-            <label for="price" class="required">Стоимость проявки</label><br>
-            <input required type="number" class="form-control" id="price" th:field="*{price}" min="1" step="0.1">
-        </div>
 
-        <div class="col-md-6 col-sm-6 col-xs-12 col-lg-4">
-            <label for="time_to_process" class="required">Время проявки</label><br>
-            <input required type="number" class="form-control" id="time_to_process" th:field="*{time_to_process}" min="1" step="0.1">
-        </div>
-        <br>
-        <input type="submit" value="Сохранить изменения" class="logout">
-    </div>
-</form>
 <!-- end footer -->
 <footer>
     <div class="footer">
@@ -299,7 +415,6 @@
 <script type="text/javascript">
     var labels = [];
     var data = [];
-    var dataMega = [];
     var oTable = document.getElementById('customers');
     var rowLength = oTable.rows.length;
     for (i = 1; i < rowLength; i++){
@@ -307,9 +422,8 @@
         var label = oCells.item(0).innerHTML;
         labels.push(label)
 
-        var cellVal = oCells.item(2).innerHTML;
+        var cellVal = oCells.item(8).innerHTML;
         data.push(cellVal)
-        dataMega.push(oCells.item(1).innerHTML)
     }
 
     plots = document.getElementById("plots");
@@ -326,33 +440,6 @@
             legend: {display: false},
         }
     });
-
-    plotsMega = document.getElementById("plotsMega");
-    new Chart(plotsMega, {
-        type: 'pie', //Declare the chart type
-        data: {
-            labels: labels, //Defines each segment
-            datasets: [{
-                data: dataMega, //Determines segment size
-                //Color of each segment
-                backgroundColor: [
-                    "rgba(196, 190, 183)",
-                    "rgba(21, 227, 235)",
-                    "rgba(7, 150, 245)",
-                    "rgba(240, 5, 252)",
-                    "rgba(252, 5, 79)",
-                    "rgb(0,12,255)",
-                    "rgb(17, 252, 5)"],
-            }]
-        },
-        options:{
-            legend: {display: true}, //This is true by default.
-
-        }
-
-    });
-
-
 
 </script>
 </body>

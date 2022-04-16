@@ -19,6 +19,14 @@ public interface OrderRepository extends JpaRepository<Order, String> {
     @Transactional
     void saveOrder(String usrname, String emplname, String nameFil, boolean prog, boolean dev, boolean scan, double cost);
 
-    @Query(value = "SELECT * FROM FilmLab.'Order' WHERE employee_name = ?1", nativeQuery = true)
-    List<Order> getEmployeeOrder(String empName);
+    @Query(value = "SELECT t.* FROM FilmLab.`Order` t WHERE employee_name = ?1 and in_progress = 1", nativeQuery = true)
+    List<Order> getEmployeeOrderInProgress(String empName);
+
+    @Query(value = "SELECT t.* FROM FilmLab.`Order` t WHERE employee_name = ?1 and in_progress = 0", nativeQuery = true)
+    List<Order> getEmployeeOrderArchive(String empName);
+
+    @Modifying
+    @Query(value = "UPDATE FilmLab.`Order` t SET t.in_progress = 0 WHERE t.id = ?1", nativeQuery = true)
+    @Transactional
+    void doneOrderById(Long id);
 }
