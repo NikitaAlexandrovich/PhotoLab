@@ -15,7 +15,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class Order {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -33,6 +33,7 @@ public class Order {
     private boolean in_progress;
     private boolean need_develop;
     private boolean need_scan;
+    private double order_cost;
 
 //    @ManyToOne
 //    @JoinColumn(name="username", nullable=false)

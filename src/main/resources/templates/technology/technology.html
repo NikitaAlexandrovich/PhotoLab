@@ -93,7 +93,7 @@
                             <li><a th:href="@{/films}">Плёнка</a></li>
                             <li><a th:href="@{/scans}">Сканирование</a></li>
                             <li><a class="active" th:href="@{/technology}">Проявка</a></li>
-                            <li><a th:href="@{/orders}">Заказы</a></li>
+                            <li><a th:href="@{/orders/{name}(name=${#httpServletRequest.remoteUser})}">Заказы</a></li>
                             <li sec:authorize="hasRole('EMPLOYEE')"><a th:href="@{/employee}">Сотруднику</a></li>
                             <li sec:authorize="hasRole('ADMIN')"><a th:href="@{/}">Администратору</a></li>
                         </ul>
@@ -249,7 +249,7 @@
                         <li><a th:href="@{/films}">Плёнка</a></li>
                         <li><a th:href="@{/scans}">Сканирование</a></li>
                         <li><a class="active" th:href="@{/technology}">Проявка</a></li>
-                        <li><a th:href="@{/orders}">Заказы</a></li>
+                        <li><a th:href="@{/orders/{name}(name=${#httpServletRequest.remoteUser})}">Заказы</a></li>
                         <li sec:authorize="hasRole('EMPLOYEE')"><a th:href="@{/employee}">Сотруднику</a></li>
                         <li sec:authorize="hasRole('ADMIN')"><a th:href="@{/}">Администратору</a></li>
                     </ul>

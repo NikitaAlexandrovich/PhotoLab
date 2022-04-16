@@ -5,9 +5,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 public interface UserRepository extends JpaRepository<User, String> {
 
     @Query("SELECT u FROM User u Where u.username = :username")
-    public User getUserByUsername(@Param("username") String username);
+    User getUserByUsername(@Param("username") String username);
 
+    @Query(value = "SELECT t.* FROM FilmLab.User t WHERE role like 'ROLE_EMPLOYEE'", nativeQuery = true)
+    List<User> getAllEmployee();
 }
