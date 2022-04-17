@@ -1,13 +1,454 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Title</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--    <p>Click <a th:href="@{/employee}">here</a> to see a greeting.</p>-->
+<!--    <p>Registration <a th:href="@{/registration}">here</a></p>-->
+<!--    <p>Scan <a th:href="@{/scans}">here</a></p>-->
+<!--    <p>Orders <a th:href="@{/orders}">here</a></p>-->
+<!--    <p>Films <a th:href="@{/films}">here</a></p>-->
+<!--</body>-->
+<!--</html>-->
+
+
+
+
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    <p>Click <a th:href="@{/employee}">here</a> to see a greeting.</p>
-    <p>Registration <a th:href="@{/registration}">here</a></p>
-</body>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5" xmlns="http://www.w3.org/1999/html">
+   <head>
+      <!-- basic -->
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <!-- mobile metas -->
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+      <!-- site metas -->
+      <title>Photo Lab</title>
+      <meta name="keywords" content="">
+      <meta name="description" content="">
+      <meta name="author" content="">
+      <!-- bootstrap css -->
+
+<!--       <link rel="stylesheet" th:href="@{/main/css/bootstrap.min.css}">-->
+      <link rel="stylesheet" href="/home/css/bootstrap.min.css">
+<!--       <link rel="stylesheet" type="text/css" href="/vendor/bootstrap/css/bootstrap.min.css">-->
+      <!-- style css -->
+      <link rel="stylesheet" href="/home/css/style.css">
+<!--       <link rel="stylesheet" href="/css/style.css">-->
+      <!-- Responsive-->
+      <link rel="stylesheet" href="/home/css/responsive.css">
+      <!-- fevicon -->
+      <link rel="icon" href="/home/images/fevicon.png" type="image/gif" />
+      <!-- Tweaks for older IEs-->
+      <link rel="stylesheet" href="/home/css/owl.carousel.min.css">
+      <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+       <link rel="stylesheet" href="https://rawgit.com/LeshikJanz/libraries/master/Bootstrap/baguetteBox.min.css">
+      <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+   </head>
+   <!-- body -->
+   <body class="main-layout">
+      <!-- loader  -->
+      <div class="loader_bg">
+         <div class="loader"><img src="/home/images/loading.gif" alt="#"/></div>
+      </div>
+      <!-- end loader -->
+     
+         <!-- header -->
+         <header class="header-area">
+            <div class="container-fluid">
+               <div class="row ">
+                 
+                  <div class=" col-md-2 col-sm-3">
+                     <div class="logo">
+                        <a th:href="@{/}">Film<br><span>lab</span></a>
+                     </div>
+                  </div>
+                  <div class="col-md-8 col-sm-9">
+                     <div class="navbar-area">
+                        <nav class="site-navbar">
+                           <ul>
+                               <li><a class="active" th:href="@{/}">Домашняя</a></li>
+                               <li><a th:href="@{/films}">Плёнка</a></li>
+                               <li><a th:href="@{/scans}">Сканирование</a></li>
+                               <li><a th:href="@{/technology}">Проявка</a></li>
+                               <li><a th:href="@{/orders/{name}(name=${#httpServletRequest.remoteUser})}">Заказы</a></li>
+                               <li sec:authorize="hasRole('USER')"><a th:href="@{/user-account/{name}(name=${#httpServletRequest.remoteUser})}">Аккаунт</a></li>
+                               <li sec:authorize="hasRole('EMPLOYEE')"><a th:href="@{/employee/{name}(name=${#httpServletRequest.remoteUser})}">Сотруднику</a></li>
+                               <li sec:authorize="hasRole('ADMIN')"><a th:href="@{/admin}">Администратору</a></li>
+                           </ul>
+                           <button class="nav-toggler">
+                           <span></span>
+                           </button>
+                        </nav>
+                     </div>
+                  </div>
+                  <div class="col-md-2 di_none">
+                    <ul class="email text_align_right">
+                        <div th:if="${#httpServletRequest.remoteUser != null}">
+                            <li>
+                                <p th:text="${#httpServletRequest.remoteUser}">
+                                    sample_user
+                                </p>
+                            </li>
+                            <li>
+                                <form method="post" th:action="@{/logout}">
+                                    <a class="logout" onclick="this.parentNode.submit();">Выйти</a>
+                                </form>
+                            </li>
+                        </div>
+                        <div th:unless="${#httpServletRequest.remoteUser != null}">
+                            <li>
+                                <div>
+                                    <a th:href="@{/login}">Войти</a>
+                                </div>
+                            </li>
+                        </div>
+                    </ul>
+                  </div>
+               </div>
+            </div>
+         </header>
+         <!-- end header inner -->
+         <!-- top -->
+      <div class="full_bg bt_fe">
+         <div class="slider_main">
+          <div class="container-fluid">
+            <div class="row d_flex">
+              <div class="col-md-5">
+                <div class="creative">
+                  <h1>Best PHOTO GRAPHY STudio</h1>
+                </div>
+              </div>
+              <div class="col-md-7">
+            <!-- carousel code -->
+            <div id="banner1" class="carousel slide">
+               <ol class="carousel-indicators">
+                  <li data-target="#banner1" data-slide-to="0" class="active"></li>
+                  <li data-target="#banner1" data-slide-to="1"></li>
+                  <li data-target="#banner1" data-slide-to="2"></li>
+               </ol>
+               <div class="carousel-inner">
+                  <!-- first slide -->
+                  <div class="carousel-item active">
+                     <div class="container">
+                        <div class="carousel-caption relative">
+                           <div class="row d_flex">
+                              <div class="col-md-12">
+                                 <div class="cemara">
+                                  <figure><img src="/home/images/img.png" alt="#"/></figure>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <!-- second slide -->
+                  <div class="carousel-item">
+                     <div class="container">
+                        <div class="carousel-caption relative">
+                           <div class="row d_flex">
+                             <div class="col-md-12">
+                                 <div class="cemara">
+                                  <figure><img src="/home/images/zenit.png" alt="#"/></figure>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <!-- third slide-->
+                  <div class="carousel-item">
+                     <div class="container">
+                        <div class="carousel-caption relative">
+                           <div class="row d_flex">
+                             <div class="col-md-12">
+                                  <div class="cemara">
+                                  <figure><img src="/home/images/leica2.png" alt="#"/></figure>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <!-- controls -->
+               <a class="carousel-control-prev" href="#banner1" role="button" data-slide="prev">
+               <i class="fa fa-arrow-left" aria-hidden="true"></i>
+               <span class="sr-only">Previous</span>
+               </a>
+               <a class="carousel-control-next" href="#banner1" role="button" data-slide="next">
+               <i class="fa fa-arrow-right" aria-hidden="true"></i>
+               <span class="sr-only">Next</span>
+               </a>
+            </div>
+          </div>
+        </div>
+      </div>
+         </div>
+      </div>
+   </div>
+      <!-- end banner -->
+      <!-- gallery -->
+      <div class="gallery">
+         <div class="container_with">
+            <div class="row">
+               <div class="col-md-12">
+                  <div class="titlepage text_align_center">
+                     <span>01</span>
+                     <h2>Наши работы</h2>
+                  </div>
+               </div>
+            </div>
+            <div class="tz-gallery">
+                     <div class="row">
+                        <div class="col-lg-4 col-md-6 ma_bottom30">
+                           <div class="lightbox">
+                              <img src="/home/images/g1.jpg" alt="Bridge">
+                              <div class="view_main">
+                                <div class="pose">
+                                <a class="read_more" href="/home/images/g1.jpg"><img src="/home/images/ga.png" alt="#"/></a>
+                                <p>Работа Екатерины из США,<br>  занимается фотограйией 2 года.</p>
+                              </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 ma_bottom30">
+                           <div class="lightbox">
+                              <img src="/home/images/g2.jpg" alt="Bridge">
+                              <div class="view_main">
+                                  <div class="pose">
+                                      <a class="read_more" href="/home/images/g2.jpg"><img src="/home/images/ga.png" alt="#"/></a>
+                                      <p>Работа Никиты из Турции,<br>  занимается фотограйией 3 года.</p>
+                                  </div>
+                            </div>
+                           </div>
+                  </div>
+                        <div class="col-lg-4 col-md-6 ma_bottom30">
+                           <div class="lightbox">
+                              <img src="/home/images/g3.jpg" alt="Bridge">
+                              <div class="view_main">
+                                  <div class="pose">
+                                 <a class="read_more" href="/home/images/g3.jpg"><img src="/home/images/ga.png" alt="#"/></a>
+                                      <p>Работа Павла из Борисова,<br>  занимается фотограйией 8 лет.</p>
+                              </div>
+                            </div>
+                           </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 ma_bottom30">
+                           <div class="lightbox">
+                              <img src="/home/images/g4.jpg" alt="Bridge">
+                              <div class="view_main">
+                                  <div class="pose">
+                                <a class="read_more" href="/home/images/g4.jpg"><img src="/home/images/ga.png" alt="#"/></a>
+                                      <p>Работа Анонима</p>
+                              </div>
+                           </div>
+                         </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 ma_bottom30">
+                           <div class="lightbox">
+                              <img src="/home/images/g5.jpg" alt="Bridge">
+                              <div class="view_main">
+                                  <div class="pose">
+                                <a class="read_more" href="/home/images/g5.jpg"><img src="/home/images/ga.png" alt="#"/></a>
+                                      <p>Работа Секретного пользователя</p>
+                              </div>
+                           </div>
+                         </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 ma_bottom30">
+                           <div class="lightbox">
+                              <img src="/home/images/g6.jpg" alt="Bridge">
+                              <div class="view_main">
+                                  <div class="pose">
+                                <a class="read_more" href="/home/images/g6.jpg"><img src="/home/images/ga.png" alt="#"/></a>
+                                      <p>Работа Володимира из Киева,<br>  занимается фотограйией 28 дней.</p>
+                              </div>
+                           </div>
+                         </div>
+                        </div>
+                         <div class="col-lg-4 col-md-6 ma_bottom30">
+                           <div class="lightbox">
+                              <img src="/home/images/g7.jpg" alt="Bridge">
+                              <div class="view_main">
+                                  <div class="pose">
+                                <a class="read_more" href="/home/images/g7.jpg"><img src="/home/images/ga.png" alt="#"/></a>
+                                      <p>Работа Пользователя попросившего Его не раскрывать.</p>
+                              </div>
+                           </div>
+                         </div>
+                  </div>
+                        <div class="col-lg-4 col-md-6 ma_bottom30">
+                           <div class="lightbox">
+                              <img src="/home/images/g8.jpg" alt="Bridge">
+                              <div class="view_main">
+                                  <div class="pose">
+                                <a class="read_more" href="/home/images/g8.jpg"><img src="/home/images/ga.png" alt="#"/></a>
+                                      <p>Работа Николая из Орши, Беларусь,<br>  занимается фотографией 7 лет.</p>
+                              </div>
+                           </div>
+                         </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 ma_bottom30">
+                           <div class="lightbox">
+                              <img src="/home/images/g9.jpg" alt="Bridge">
+                              <div class="view_main">
+                                  <div class="pose">
+                                <a class="read_more" href="/home/images/g9.jpg"><img src="/home/images/ga.png" alt="#"/></a>
+                                      <p>Работа Георгия из Германии,<br>  занимается фотографией 5 лет.</p>
+                              </div>
+                           </div>
+                         </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- end gallery -->
+      <!-- about -->
+      <div class="about">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="titlepage text_align_left">
+                <span>02</span>
+                <h2>О нас</h2>
+                <p>PhotoLab создана энтузиастами увлеченными пленочной фотографией и технологиями связанными с ними. Мы предлагаем любому желающему совершить свой первый заказ на проявку, сканирование или покупку плёнки в фотолаборатории PhotoLab.</p>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="about_img">
+                <figure><img src="/home/images/about_img.png" alt="#"/></figure>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end about -->
+      <!-- team -->
+      <div class="team">
+         <div class="container_with">
+            <div class="row">
+               <div class="col-md-12">
+                  <div class="titlepage text_align_center">
+                    <span>03</span>
+                     <h2>Наша команда</h2>
+                  </div>
+               </div>
+               <div class="col-md-4">
+                  <div class="team_box text_align_center">
+                     <div class="team_img">
+                       <figure><img src="/home/images/team1.jpg" alt="#"/></figure>
+                     </div>
+                     <div class="craig">
+                       <h3>Пётр</h3>
+                       <span>Генеральный директор</span>
+                       <ul class="social_icon ">
+                          <li><a href="Javascript:void(0)"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                          <li><a href="Javascript:void(0)"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                          <li><a href="Javascript:void(0)"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                       </ul>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-md-4">
+                  <div class="team_box text_align_center">
+                     <div class="team_img">
+                       <figure><img src="/home/images/team2.jpg" alt="#"/></figure>
+                     </div>
+                     <div class="craig">
+                       <h3>Александр</h3>
+                       <span>Фотограф</span>
+                       <ul class="social_icon ">
+                          <li><a href="Javascript:void(0)"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                          <li><a href="Javascript:void(0)"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                          <li><a href="Javascript:void(0)"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                       </ul>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-md-4">
+                  <div class="team_box text_align_center">
+                     <div class="team_img">
+                       <figure><img src="/home/images/team3.jpg" alt="#"/></figure>
+                     </div>
+                     <div class="craig">
+                       <h3>Василий</h3>
+                       <span>Лаборант</span>
+                       <ul class="social_icon ">
+                          <li><a href="Javascript:void(0)"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                          <li><a href="Javascript:void(0)"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                          <li><a href="Javascript:void(0)"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                       </ul>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- end team -->
+      <!-- end footer -->
+      <footer>
+         <div class="footer">
+            <div class="container">
+               <div class="row">
+                        <div class="col-md-12">
+                              <ul class="menu_footer">
+                                  <li><a class="active" th:href="@{/}">Домашняя</a></li>
+                                  <li><a th:href="@{/films}">Плёнка</a></li>
+                                  <li><a th:href="@{/scans}">Сканирование</a></li>
+                                  <li><a th:href="@{/technology}">Проявка</a></li>
+                                  <li><a th:href="@{/orders/{name}(name=${#httpServletRequest.remoteUser})}">Заказы</a></li>
+                                  <li sec:authorize="hasRole('USER')"><a th:href="@{/user-account/{name}(name=${#httpServletRequest.remoteUser})}">Аккаунт</a></li>
+                                  <li sec:authorize="hasRole('EMPLOYEE')"><a th:href="@{/employee/{name}(name=${#httpServletRequest.remoteUser})}">Сотруднику</a></li>
+                                  <li sec:authorize="hasRole('ADMIN')"><a th:href="@{/admin}">Администратору</a></li>
+                              </ul>
+                        </div>
+                        <div class="col-md-12">
+                          <ul class="top_infomation">
+                            <li><a href="javascript:void(0)"><i><img src="/home/images/loc.png" alt="#"/></i></a></li>
+                            <li><a href="javascript:void(0)"><i><img src="/home/images/call.png" alt="#"/></i></a></li>
+                            <li><a href="javascript:void(0)"><i><img src="/home/images/mail.png" alt="#"/></i></a></li>
+                              </ul>
+                        </div>
+               </div>
+            </div>
+            <div class="copyright">
+               <div class="container">
+                  <div class="row d_flex">
+                     <div class="col-md-8">
+                        <p>© 2022 All Rights Reserved. Design by  <a th:href="@{/}"> Nikita Hodarenok</a></p>
+                     </div>
+                     <div class="col-md-4">
+                       <ul class="social_icon_bottom ">
+                          <li><a href="Javascript:void(0)"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                          <li><a href="Javascript:void(0)"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                          <li><a href="Javascript:void(0)"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                       </ul>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </footer>
+      <!-- end footer -->
+      <!-- Javascript files-->
+      <script src="/home/js/jquery.min.js"></script>
+      <script src="/home/js/bootstrap.bundle.min.js"></script>
+      <script src="/home/js/jquery-3.0.0.min.js"></script>
+      <script src="/home/js/owl.carousel.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.8.1/baguetteBox.min.js"></script>
+      <script src="/home/js/custom.js"></script>
+        <script type="text/javascript">
+         baguetteBox.run('.tz-gallery');
+      </script>
+   </body>
 </html>
 
 

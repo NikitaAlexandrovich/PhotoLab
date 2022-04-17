@@ -30,14 +30,22 @@ import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.Set;
 
-@Data
 @Entity
+@Data
 @Table(name="User")
 public class User {
     @Id
     private String username;
     private String password;
     private String role;
+
+//    @OneToMany(mappedBy="user")
+//    private Set<Order> Orders;
+//
+//    @OneToMany(mappedBy = "employee")
+//    private Set<Order> EmployeeOrders;
 }

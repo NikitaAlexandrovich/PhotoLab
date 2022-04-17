@@ -1,7 +1,7 @@
 package com.analogfilm.photolab.servise;
 
 import com.analogfilm.photolab.models.User;
-import com.analogfilm.photolab.repositoty.UserRepository;
+import com.analogfilm.photolab.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,8 +17,8 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User findById(String id) {
-        return userRepository.getOne(id);
+    public User findByName(String id) {
+        return userRepository.getUserByUsername(id);
     }
 
     public List<User> findAll() {
@@ -31,7 +31,32 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public User saveAdmin(User user) {
+        user.setPassword((new BCryptPasswordEncoder()).encode(user.getPassword()));
+        if (user.getRole()==null) user.setRole("ROLE_ADMIN");
+        return userRepository.save(user);
+    }
+
+    public User saveEmployee(User user) {
+        user.setPassword((new BCryptPasswordEncoder()).encode(user.getPassword()));
+        if (user.getRole()==null) user.setRole("ROLE_EMPLOYEE");
+        return userRepository.save(user);
+    }
+
     public void deleteById(String id) {
         userRepository.deleteById(id);
     }
+
+    public List<User> getAllEmployee() {
+        return userRepository.getAllEmployee();
+    }
+
+    public List<User> getAllAdmins() {
+        return userRepository.getAllAdmins();
+    }
+
+    public List<User> getAllClient() {
+        return userRepository.getAllClient();
+    }
+
 }

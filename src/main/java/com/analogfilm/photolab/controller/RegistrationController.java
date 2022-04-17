@@ -13,7 +13,7 @@ import java.util.Map;
 @Controller
 public class RegistrationController {
 
-    private final UserService userService;
+    private UserService userService;
 
     @Autowired
     public RegistrationController(UserService userService) {
@@ -29,5 +29,16 @@ public class RegistrationController {
     public String registrationUser(User user){
         userService.saveUser(user);
         return "redirect:/login";
+    }
+
+    @GetMapping("/registrationAdmin")
+    public String registrationAdmin() {
+        return "registrationAdmin";
+    }
+
+    @PostMapping("/registrationAdmin")
+    public String registrationAdmin(User user){
+        userService.saveAdmin(user);
+        return "redirect:/admin";
     }
 }

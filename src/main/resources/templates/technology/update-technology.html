@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5" xmlns="http://www.w3.org/1999/html">
+<head>
+
+    <style>
+        #customers {
+            /*font-family: Arial, Helvetica, sans-serif;*/
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        #customers td, #customers th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        #customers tr:nth-child(even){background-color: #f2f2f2;}
+
+        #customers tr:hover {background-color: #ddd;}
+
+        #customers th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: center;
+            background-color: #f6388e;
+            color: white;
+        }
+
+        #plots{
+            margin:auto;
+            background-color: #ffffff;
+        }
+    </style>
+
+    <!-- basic -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- mobile metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <!-- site metas -->
+    <title>Photo Lab Tech</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="Nikita Hodarenok">
+    <!-- bootstrap css -->
+
+    <!--       <link rel="stylesheet" th:href="@{/main/css/bootstrap.min.css}">-->
+    <link rel="stylesheet" href="/home/css/bootstrap.min.css">
+    <!--       <link rel="stylesheet" type="text/css" href="/vendor/bootstrap/css/bootstrap.min.css">-->
+    <!-- style css -->
+    <link rel="stylesheet" href="/home/css/style.css">
+    <!--       <link rel="stylesheet" href="/css/style.css">-->
+    <!-- Responsive-->
+    <link rel="stylesheet" href="/home/css/responsive.css">
+    <!-- fevicon -->
+    <link rel="icon" href="/home/images/fevicon.png" type="image/gif" />
+    <!-- Tweaks for older IEs-->
+    <link rel="stylesheet" href="/home/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    <link rel="stylesheet" href="https://rawgit.com/LeshikJanz/libraries/master/Bootstrap/baguetteBox.min.css">
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+</head>
+<!-- body -->
+<body class="main-layout">
+<!-- loader  -->
+<div class="loader_bg">
+    <div class="loader"><img src="/home/images/loading.gif" alt="#"/></div>
+</div>
+<!-- end loader -->
+
+<!-- header -->
+<header class="header-area">
+    <div class="container-fluid">
+        <div class="row ">
+
+            <div class=" col-md-2 col-sm-3">
+                <div class="logo">
+                    <a th:href="@{/}">Film<br><span>lab</span></a>
+                </div>
+            </div>
+            <div class="col-md-8 col-sm-9">
+                <div class="navbar-area">
+                    <nav class="site-navbar">
+                        <ul>
+                            <li><a th:href="@{/}">Домашняя</a></li>
+                            <li><a th:href="@{/films}">Плёнка</a></li>
+                            <li><a th:href="@{/scans}">Сканирование</a></li>
+                            <li><a class="active" th:href="@{/technology}">Проявка</a></li>
+                            <li><a th:href="@{/orders/{name}(name=${#httpServletRequest.remoteUser})}">Заказы</a></li>
+                            <li sec:authorize="hasRole('USER')"><a th:href="@{/user-account/{name}(name=${#httpServletRequest.remoteUser})}">Аккаунт</a></li>
+                            <li sec:authorize="hasRole('EMPLOYEE')"><a th:href="@{/employee/{name}(name=${#httpServletRequest.remoteUser})}">Сотруднику</a></li>
+                            <li sec:authorize="hasRole('ADMIN')"><a th:href="@{/admin}">Администратору</a></li>
+                        </ul>
+                        <button class="nav-toggler">
+                            <span></span>
+                        </button>
+                    </nav>
+                </div>
+            </div>
+            <div class=" col-md-2 di_none">
+                <ul class="email text_align_right">
+                    <div th:if="${#httpServletRequest.remoteUser != null}">
+                        <li>
+                            <p th:text="${#httpServletRequest.remoteUser}">
+                                sample_user
+                            </p>
+                        </li>
+                        <li>
+                            <form method="post" th:action="@{/logout}">
+                                <a class="logout" onclick="this.parentNode.submit();">Выйти</a>
+                            </form>
+                        </li>
+                    </div>
+                    <div th:unless="${#httpServletRequest.remoteUser != null}">
+                        <li>
+                            <div>
+                                <a th:href="@{/login}">Войти</a>
+                            </div>
+                        </li>
+                    </div>
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- end header inner -->
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="titlepage text_align_center">
+            <span>01</span>
+            <h2>Редактирование плёнки</h2>
+        </div>
+    </div>
+</div>
+<form th:action="@{/technology-update}" th:object="${tech}" method="post">
+    <div class="container">
+
+        <div class="col-md-6 col-sm-6 col-xs-12 col-lg-4">
+            <label for="tech_name" class="required">Название технологии</label><br>
+            <input type="text" class="form-control" id="tech_name" th:field="*{tech_name}" required>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12 col-lg-4">
+            <label for="price" class="required">Стоимость проявки</label><br>
+            <input required type="number" class="form-control" id="price" th:field="*{price}" min="1" step="0.1">
+        </div>
+
+        <div class="col-md-6 col-sm-6 col-xs-12 col-lg-4">
+            <label for="time_to_process" class="required">Время проявки</label><br>
+            <input required type="number" class="form-control" id="time_to_process" th:field="*{time_to_process}" min="1" step="1">
+        </div>
+        <br>
+        <input type="submit" value="Сохранить изменения" class="logout">
+    </div>
+</form>
+</br>
+
+<!-- end graph -->
+<!-- end footer -->
+<footer>
+    <div class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="menu_footer">
+                        <li><a th:href="@{/}">Домашняя</a></li>
+                        <li><a th:href="@{/films}">Плёнка</a></li>
+                        <li><a th:href="@{/scans}">Сканирование</a></li>
+                        <li><a class="active" th:href="@{/technology}">Проявка</a></li>
+                        <li><a th:href="@{/orders/{name}(name=${#httpServletRequest.remoteUser})}">Заказы</a></li>
+                        <li sec:authorize="hasRole('USER')"><a th:href="@{/user-account/{name}(name=${#httpServletRequest.remoteUser})}">Аккаунт</a></li>
+                        <li sec:authorize="hasRole('EMPLOYEE')"><a th:href="@{/employee/{name}(name=${#httpServletRequest.remoteUser})}">Сотруднику</a></li>
+                        <li sec:authorize="hasRole('ADMIN')"><a th:href="@{/admin}">Администратору</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-12">
+                    <ul class="top_infomation">
+                        <li><a href="javascript:void(0)"><i><img src="/home/images/loc.png" alt="#"/></i></a></li>
+                        <li><a href="javascript:void(0)"><i><img src="/home/images/call.png" alt="#"/></i></a></li>
+                        <li><a href="javascript:void(0)"><i><img src="/home/images/mail.png" alt="#"/></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <div class="container">
+                <div class="row d_flex">
+                    <div class="col-md-8">
+                        <p>© 2022 All Rights Reserved. Design by  <a th:href="@{/}"> Nikita Hodarenok</a></p>
+                    </div>
+                    <div class="col-md-4">
+                        <ul class="social_icon_bottom ">
+                            <li><a href="Javascript:void(0)"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                            <li><a href="Javascript:void(0)"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                            <li><a href="Javascript:void(0)"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- end footer -->
+<!-- Javascript files-->
+<script src="/home/js/jquery.min.js"></script>
+<script src="/home/js/bootstrap.bundle.min.js"></script>
+<script src="/home/js/jquery-3.0.0.min.js"></script>
+<script src="/home/js/owl.carousel.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.8.1/baguetteBox.min.js"></script>
+<script src="/home/js/custom.js"></script>
+<script type="text/javascript">
+    baguetteBox.run('.tz-gallery');
+</script>
+<script src="/js/filter-search.js"></script>
+<script src="/js/sort-table.js"></script>
+</body>
+</html>
+
+

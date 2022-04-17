@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5" xmlns="http://www.w3.org/1999/html">
+<head>
+
+    <style>
+        #customers {
+            /*font-family: Arial, Helvetica, sans-serif;*/
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        #customers td, #customers th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        #customers tr:nth-child(even){background-color: #f2f2f2;}
+
+        #customers tr:hover {background-color: #ddd;}
+
+        #customers th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: center;
+            background-color: #f6388e;
+            color: white;
+        }
+
+
+        #admins {
+            /*font-family: Arial, Helvetica, sans-serif;*/
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        #admins td, #admins th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        #admins tr:nth-child(even){background-color: #f2f2f2;}
+
+        #admins tr:hover {background-color: #ddd;}
+
+        #admins th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: center;
+            background-color: #f6388e;
+            color: white;
+        }
+
+
+
+        #clients {
+            /*font-family: Arial, Helvetica, sans-serif;*/
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        #clients td, #clients th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        #clients tr:nth-child(even){background-color: #f2f2f2;}
+
+        #clients tr:hover {background-color: #ddd;}
+
+        #clients th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: center;
+            background-color: #f6388e;
+            color: white;
+        }
+
+        #employee {
+            /*font-family: Arial, Helvetica, sans-serif;*/
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        #employee td, #employee th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        #employee tr:nth-child(even){background-color: #f2f2f2;}
+
+        #employee tr:hover {background-color: #ddd;}
+
+        #employee th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: center;
+            background-color: #f6388e;
+            color: white;
+        }
+
+
+
+
+
+        #plots{
+            margin:auto;
+            background-color: #ffffff;
+        }
+    </style>
+
+    <!-- basic -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- mobile metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <!-- site metas -->
+    <title>Employee</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- bootstrap css -->
+
+    <!--       <link rel="stylesheet" th:href="@{/main/css/bootstrap.min.css}">-->
+    <link rel="stylesheet" href="/home/css/bootstrap.min.css">
+    <!--       <link rel="stylesheet" type="text/css" href="/vendor/bootstrap/css/bootstrap.min.css">-->
+    <!-- style css -->
+    <link rel="stylesheet" href="/home/css/style.css">
+    <!--       <link rel="stylesheet" href="/css/style.css">-->
+    <!-- Responsive-->
+    <link rel="stylesheet" href="/home/css/responsive.css">
+    <!-- fevicon -->
+    <link rel="icon" href="/home/images/fevicon.png" type="image/gif" />
+    <!-- Tweaks for older IEs-->
+    <link rel="stylesheet" href="/home/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    <link rel="stylesheet" href="https://rawgit.com/LeshikJanz/libraries/master/Bootstrap/baguetteBox.min.css">
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+</head>
+<!-- body -->
+<body class="main-layout">
+<!-- loader  -->
+<div class="loader_bg">
+    <div class="loader"><img src="/home/images/loading.gif" alt="#"/></div>
+</div>
+<!-- end loader -->
+
+<!-- header -->
+<header class="header-area">
+    <div class="container-fluid">
+        <div class="row ">
+
+            <div class=" col-md-2 col-sm-3">
+                <div class="logo">
+                    <a th:href="@{/}">Film<br><span>lab</span></a>
+                </div>
+            </div>
+            <div class="col-md-8 col-sm-9">
+                <div class="navbar-area">
+                    <nav class="site-navbar">
+                        <ul>
+                            <li><a th:href="@{/}">Домашняя</a></li>
+                            <li><a th:href="@{/films}">Плёнка</a></li>
+                            <li><a th:href="@{/scans}">Сканирование</a></li>
+                            <li><a th:href="@{/technology}">Проявка</a></li>
+                            <li><a th:href="@{/orders/{name}(name=${#httpServletRequest.remoteUser})}">Заказы</a></li>
+                            <li sec:authorize="hasRole('USER')"><a th:href="@{/user-account/{name}(name=${#httpServletRequest.remoteUser})}">Аккаунт</a></li>
+                            <li class="active" sec:authorize="hasRole('EMPLOYEE')"><a th:href="@{/employee/{name}(name=${#httpServletRequest.remoteUser})}">Сотруднику</a></li>
+                            <li sec:authorize="hasRole('ADMIN')"><a th:href="@{/admin}">Администратору</a></li>
+                        </ul>
+                        <button class="nav-toggler">
+                            <span></span>
+                        </button>
+                    </nav>
+                </div>
+            </div>
+            <div class=" col-md-2 di_none">
+                <ul class="email text_align_right">
+                    <div th:if="${#httpServletRequest.remoteUser != null}">
+                        <li>
+                            <p th:text="${#httpServletRequest.remoteUser}">
+                                sample_user
+                            </p>
+                        </li>
+                        <li>
+                            <form method="post" th:action="@{/logout}">
+                                <a class="logout" onclick="this.parentNode.submit();">Выйти</a>
+                            </form>
+                        </li>
+                    </div>
+                    <div th:unless="${#httpServletRequest.remoteUser != null}">
+                        <li>
+                            <div>
+                                <a th:href="@{/login}">Войти</a>
+                            </div>
+                        </li>
+                    </div>
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- end header inner -->
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="titlepage text_align_center">
+            <span>01</span>
+            <h2>Заказы сотрудника к выполнению</h2>
+        </div>
+    </div>
+</div>
+<div th:switch="${ordersProgress}">
+    <h2 th:case="null">No order found!</h2>
+    <div th:case="*">
+        <table id="customers" class="table_sort">
+            <thead>
+            <tr>
+                <th>Номер заказа</th>
+                <th>Клиент</th>
+                <th>Название плёнки</th>
+                <th>Технология проявки</th>
+                <th>Устойство сканирования</th>
+                <th>Статус</th>
+                <th>Проявка</th>
+                <th>Сканирование</th>
+                <th>Стоимость заказа</th>
+                <th>Действие сотрудника</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="order : ${ordersProgress}">
+                <td th:text="${order.id}"></td>
+                <td th:text="${order.username.username}"></td>
+                <td><a th:text="${order.name_film.name_film}" th:href="@{/films}"></a></td>
+                <td><a th:text="${order.name_film.tech_name.tech_name}" th:href="@{/technology}"></a></td>
+                <td><a th:text="${order.name_film.scan_machine.scan_machine}" th:href="@{/scans}"></a></td>
+                <div th:switch="${order.in_progress}">
+                    <td th:case="true">Выполняется</td>
+                    <td th:case="false">Завершен</td>
+                </div>
+                <div th:switch="${order.need_develop}">
+                    <td th:case="true">Требуется</td>
+                    <td th:case="false">Не требуется</td>
+                </div>
+                <div th:switch="${order.need_scan}">
+                    <td th:case="true">Требуется</td>
+                    <td th:case="false">Не требуется</td>
+                </div>
+                <td th:text="${order.order_cost}"></td>
+                <td><a th:href="@{/employee/order-done/{id}(id=${order.getId()})}">Выполнить заказ</a></td>
+            </tr>
+            </tbody>
+        </table>
+        <h5>* Возможна сортировка по нажатию на столбец.</h5>
+    </div>
+</div>
+</br>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="titlepage text_align_center">
+            <span>02</span>
+            <h2>Поиск и фильтрация заказов</h2>
+        </div>
+    </div>
+</div>
+<!-- start поиск -->
+<input class="form-control" type="text" placeholder="Любое поле таблицы" id="search-text" onkeyup="tableSearch()">
+<h5>* Поиск осуществляется по части поля, полному слову любой колонки таблцы. После поиска и фильтрации доступна сортировка колонок.</h5>
+</br>
+<!-- end поиск -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="titlepage text_align_center">
+            <span>03</span>
+            <h2>График стоимости всех заказов к выполению</h2>
+        </div>
+    </div>
+</div>
+<!-- start graph -->
+<canvas id="plots" style="width:100%; max-width:700px"></canvas>
+<!-- end graph -->
+<br>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="titlepage text_align_center">
+            <span>04</span>
+            <h2>Список архивных(выполненых) заказов</h2>
+        </div>
+    </div>
+</div>
+<div th:switch="${ordersArchive}">
+    <h2 th:case="null">No admins found!</h2>
+    <div th:case="*">
+        <table id="admins" class="table_sort">
+            <thead>
+            <tr>
+                <th>Номер заказа</th>
+                <th>Клиент</th>
+                <th>Название плёнки</th>
+                <th>Технология проявки</th>
+                <th>Устойство сканирования</th>
+                <th>Статус</th>
+                <th>Проявка</th>
+                <th>Сканирование</th>
+                <th>Стоимость заказа</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="order : ${ordersArchive}">
+                <td th:text="${order.id}"></td>
+                <td th:text="${order.username.username}"></td>
+                <td><a th:text="${order.name_film.name_film}" th:href="@{/films}"></a></td>
+                <td><a th:text="${order.name_film.tech_name.tech_name}" th:href="@{/technology}"></a></td>
+                <td><a th:text="${order.name_film.scan_machine.scan_machine}" th:href="@{/scans}"></a></td>
+                <div th:switch="${order.in_progress}">
+                    <td th:case="true">Выполняется</td>
+                    <td th:case="false">Завершен</td>
+                </div>
+                <div th:switch="${order.need_develop}">
+                    <td th:case="true">Требуется</td>
+                    <td th:case="false">Не требуется</td>
+                </div>
+                <div th:switch="${order.need_scan}">
+                    <td th:case="true">Требуется</td>
+                    <td th:case="false">Не требуется</td>
+                </div>
+                <td th:text="${order.order_cost}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <h5>* Возможна сортировка по нажатию на столбец.</h5>
+    </div>
+</div>
+</br>
+<div class="row">
+    <div class="col-md-12">
+        <div class="titlepage text_align_center">
+            <span>05</span>
+            <h2>Поиск и фильтрация архива заказов</h2>
+        </div>
+    </div>
+</div>
+<!-- start поиск -->
+<input class="form-control" type="text" placeholder="Любое поле таблицы" id="search-admin" onkeyup="tableSearchAdmin()">
+<h5>* Поиск осуществляется по части поля, полному слову любой колонки таблцы. После поиска и фильтрации доступна сортировка колонок.</h5>
+</br>
+
+
+<!-- end footer -->
+<footer>
+    <div class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="menu_footer">
+                        <li><a th:href="@{/}">Домашняя</a></li>
+                        <li><a th:href="@{/films}">Плёнка</a></li>
+                        <li><a th:href="@{/scans}">Сканирование</a></li>
+                        <li><a th:href="@{/technology}">Проявка</a></li>
+                        <li><a th:href="@{/orders/{name}(name=${#httpServletRequest.remoteUser})}">Заказы</a></li>
+                        <li sec:authorize="hasRole('USER')"><a th:href="@{/user-account/{name}(name=${#httpServletRequest.remoteUser})}">Аккаунт</a></li>
+                        <li class="active" sec:authorize="hasRole('EMPLOYEE')"><a th:href="@{/employee/{name}(name=${#httpServletRequest.remoteUser})}">Сотруднику</a></li>
+                        <li sec:authorize="hasRole('ADMIN')"><a th:href="@{/admin}">Администратору</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-12">
+                    <ul class="top_infomation">
+                        <li><a href="javascript:void(0)"><i><img src="/home/images/loc.png" alt="#"/></i></a></li>
+                        <li><a href="javascript:void(0)"><i><img src="/home/images/call.png" alt="#"/></i></a></li>
+                        <li><a href="javascript:void(0)"><i><img src="/home/images/mail.png" alt="#"/></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <div class="container">
+                <div class="row d_flex">
+                    <div class="col-md-8">
+                        <p>© 2022 All Rights Reserved. Design by  <a th:href="@{/}"> Nikita Hodarenok</a></p>
+                    </div>
+                    <div class="col-md-4">
+                        <ul class="social_icon_bottom ">
+                            <li><a href="Javascript:void(0)"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                            <li><a href="Javascript:void(0)"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                            <li><a href="Javascript:void(0)"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- end footer -->
+<!-- Javascript files-->
+<script src="/home/js/jquery.min.js"></script>
+<script src="/home/js/bootstrap.bundle.min.js"></script>
+<script src="/home/js/jquery-3.0.0.min.js"></script>
+<script src="/home/js/owl.carousel.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.8.1/baguetteBox.min.js"></script>
+<script src="/home/js/custom.js"></script>
+<script type="text/javascript">
+    baguetteBox.run('.tz-gallery');
+</script>
+<script src="/js/filter-search.js"></script>
+<script src="/js/sort-table.js"></script>
+<script type="text/javascript">
+    var labels = [];
+    var data = [];
+    var oTable = document.getElementById('customers');
+    var rowLength = oTable.rows.length;
+    for (i = 1; i < rowLength; i++){
+        var oCells = oTable.rows.item(i).cells;
+        var label = oCells.item(0).innerHTML;
+        labels.push(label)
+
+        var cellVal = oCells.item(8).innerHTML;
+        data.push(cellVal)
+    }
+
+    plots = document.getElementById("plots");
+    new Chart(plots, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                data: data,
+                backgroundColor: '#f6388e',
+            }]
+        },
+        options:{
+            legend: {display: false},
+        }
+    });
+
+</script>
+</body>
+</html>
+
+
