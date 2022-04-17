@@ -16,4 +16,5 @@ public class PhotoLabApplication {
         SpringApplication.run(PhotoLabApplication.class, args);
     }
 
+
 }
