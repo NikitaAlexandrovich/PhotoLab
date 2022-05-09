@@ -41,9 +41,14 @@ public class OrderService {
     public Order saveOrder(Order order) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
-
         order.setUsername(userRepository.getUserByUsername(currentPrincipalName));
         order.setIn_progress(true);
+        order.setOrder_cost(calculate(order));
+        orderRepository.saveOrder(order.getUsername().getUsername(), order.getEmployee_name().getUsername(), order.getName_film().getName_film(), order.isIn_progress(), order.isNeed_develop(), order.isNeed_scan(), order.getOrder_cost());
+        return order;
+    }
+
+    public double calculate(Order order) {
         double cost = order.getName_film().getFilm_prise();
         if(order.isNeed_develop()) {
             cost = cost + order.getName_film().getTech_name().getPrice();
@@ -51,9 +56,7 @@ public class OrderService {
         if(order.isNeed_scan()) {
             cost = cost + order.getName_film().getScan_machine().getPrise();
         }
-        order.setOrder_cost(cost);
-        orderRepository.saveOrder(order.getUsername().getUsername(), order.getEmployee_name().getUsername(), order.getName_film().getName_film(), order.isIn_progress(), order.isNeed_develop(), order.isNeed_scan(), order.getOrder_cost());
-        return order;
+        return cost;
     }
 
     public void doneOrderById(Long id) {

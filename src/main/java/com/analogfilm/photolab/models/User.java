@@ -26,7 +26,9 @@ package com.analogfilm.photolab.models;
 //    private Set<Role> roles;
 //}
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -36,6 +38,8 @@ import java.util.Set;
 
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name="User")
 public class User {
     @Id
