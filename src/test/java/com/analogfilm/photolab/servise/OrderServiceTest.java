@@ -1,58 +1,85 @@
 package com.analogfilm.photolab.servise;
 
 import com.analogfilm.photolab.models.*;
+import com.analogfilm.photolab.repository.OrderRepository;
+import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+import java.util.ArrayList;
+import java.util.List;
 
-// https://www.youtube.com/watch?v=QrSR1fm9JwA&t=518s
-
-import static org.junit.Assert.assertEquals;
-
+//@RunWith(SpringRunner.class)
+@SpringBootTest
 public class OrderServiceTest {
 
-    @MockBean
+    @Autowired
     private OrderService service;
 
-    @Test
-    public void testDoneOrder() {
-        service.findAll();
+    @MockBean
+    private OrderRepository ordRepo;
 
+    @Test
+    public void calculate() {
+        Order testOrder = new Order();
+        testOrder.setName_film(new Film("film", new Technology("tech", 5.5, 1), new Scan("scan", 1.1, 1.3), 3.1, ""));
+        testOrder.setNeed_develop(true);
+        testOrder.setNeed_scan(true);
+        double result = service.calculate(testOrder);
+        Assertions.assertEquals(9.9, result);
     }
 
     @Test
-    public void testCreateOrder() {
-        Order first = new Order(1, new User("user1", "ppp", "role"), new User("employee", "ppp", "empl"), new Film("namefilm", new Technology("tech", 12.5, 3), new Scan("scan", 23.0, 22.0), 34, "120"), true, true, true, 68.5);
-        Order saved = service.saveOrder(first);
-        assertEquals(first, saved);
-    }
-
-    @Test
-    public void tests() {
-        assertEquals(1, 1);
-    }
-
-    @Test
-    void findAll() {
+    public void saveOrder() {
+        Order ord = new Order();
+        ord.setId(1);
+        List<Order> listorder = new ArrayList<>();
+        listorder.add(ord);
+        Mockito.doReturn(listorder)
+                .when(ordRepo)
+                .findById(1L);
     }
 
     @Test
     void findByUserName() {
+        List<Order> listorder = new ArrayList<>();
+        Order fst = new Order();
+        fst.setUsername(new User("user3", "", ""));
+        listorder.add(fst);
+        listorder.add(fst);
+        Mockito.doReturn(listorder).when(ordRepo).getOrdersByUserName("user3");
     }
 
     @Test
     void findByEmployeeNameInProgress() {
+        List<Order> listorder = new ArrayList<>();
+        Order fst = new Order();
+        fst.setUsername(new User("pavel", "", ""));
+        listorder.add(fst);
+        Mockito.doReturn(listorder).when(ordRepo).getEmployeeOrderInProgress("pavel");
     }
 
     @Test
     void findByEmployeeNameArchive() {
-    }
-
-    @Test
-    void saveOrder() {
+        List<Order> listorder = new ArrayList<>();
+        Order fst = new Order();
+        fst.setUsername(new User("pavel", "", ""));
+        listorder.add(fst);
+        listorder.add(fst);
+        Mockito.doReturn(listorder).when(ordRepo).getEmployeeOrderInProgress("pavel");
     }
 
     @Test
     void doneOrderById() {
+        Order fst = new Order();
+        fst.setId(1);
+        fst.setIn_progress(false);
+        service.doneOrderById(1L);
+        Assert.assertEquals(fst.getId(), 1L);
     }
 }
