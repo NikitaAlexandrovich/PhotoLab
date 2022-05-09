@@ -29,4 +29,8 @@ public interface OrderRepository extends JpaRepository<Order, String> {
     @Query(value = "UPDATE FilmLab.`Order` t SET t.in_progress = 0 WHERE t.id = ?1", nativeQuery = true)
     @Transactional
     void doneOrderById(Long id);
+
+
+    @Query(value = "SELECT t.* FROM FilmLab.`Order` t WHERE id = ?1", nativeQuery = true)
+    List<Order> findById(Long id);
 }

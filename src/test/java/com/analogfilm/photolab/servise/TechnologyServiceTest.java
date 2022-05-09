@@ -2,7 +2,9 @@ package com.analogfilm.photolab.servise;
 
 import com.analogfilm.photolab.models.Film;
 import com.analogfilm.photolab.models.Scan;
+import com.analogfilm.photolab.models.Technology;
 import com.analogfilm.photolab.repository.ScanRepository;
+import com.analogfilm.photolab.repository.TechnologyRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,36 +16,36 @@ import static org.junit.jupiter.api.Assertions.*;
 
 //@RunWith(SpringRunner.class)
 @SpringBootTest
-class ScanServiceTest {
+class TechnologyServiceTest {
 
     @MockBean
-    private ScanRepository scanRepo;
+    private TechnologyRepository techRepo;
 
     @Test
     void findAll() {
-        ArrayList<Scan> lst = new ArrayList<>();
-        lst.add(new Scan());
+        ArrayList<Technology> lst = new ArrayList<>();
+        lst.add(new Technology());
         Mockito.doReturn(lst)
-                .when(scanRepo)
+                .when(techRepo)
                 .findAll();
     }
 
     @Test
-    void deleteScan() {
-        Mockito.doNothing().when(scanRepo).deleteById("testedScanName");
+    void deleteTech() {
+        Mockito.doNothing().when(techRepo).deleteById("testedTechName");
     }
 
     @Test
     void findByName() {
-        Mockito.doReturn(new Film())
-                .when(scanRepo)
+        Mockito.doReturn(new Technology())
+                .when(techRepo)
                 .getById("name");
     }
 
     @Test
-    void saveScan() {
-        Mockito.doReturn(new Film())
-                .when(scanRepo)
-                .save(new Scan());
+    void saveTech() {
+        Mockito.doReturn(new Technology())
+                .when(techRepo)
+                .save(new Technology());
     }
 }
